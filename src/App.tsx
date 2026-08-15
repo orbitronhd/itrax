@@ -1,7 +1,31 @@
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { CustomCursor } from './components/CustomCursor';
 import { ParticleCanvas } from './components/ParticleCanvas';
 import { FloatingParticles } from './components/FloatingParticles';
+import { Footer } from './components/Footer';
+import { HomePage } from './components/HomePage';
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [pathname, hash]);
+
+  return null;
+}
 
 function App() {
   return (
@@ -10,14 +34,13 @@ function App() {
       <CustomCursor />
       <ParticleCanvas />
       <FloatingParticles />
-      {/* Future page content will go here */}
-      <div style={{ position: 'relative', zIndex: 1, padding: '4rem', textAlign: 'center' }}>
-        <h1 style={{ marginBottom: '1rem' }}>Welcome to iTrax</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Background systems are live.</p>
-        <button className="btn" style={{ marginTop: '2rem', padding: '0.8rem 1.5rem', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: 'var(--radius-md)', cursor: 'none' }}>
-          Interactive Button
-        </button>
-      </div>
+      <ScrollToTop />
+      
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+
+      <Footer />
     </>
   );
 }
