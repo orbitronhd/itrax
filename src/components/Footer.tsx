@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './Footer.css';
+import './css/Footer.css';
 
 export function Footer() {
   const [isVisible, setIsVisible] = useState(false);

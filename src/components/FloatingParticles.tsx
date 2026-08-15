@@ -1,4 +1,4 @@
-import './FloatingParticles.css';
+import './css/FloatingParticles.css';
 
 export function FloatingParticles() {
   return (

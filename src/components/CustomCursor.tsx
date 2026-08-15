@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './CustomCursor.css';
+import './css/CustomCursor.css';
 
 export function CustomCursor() {
   const dotPosRef = useRef<HTMLDivElement>(null);

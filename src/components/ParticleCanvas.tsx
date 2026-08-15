@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './ParticleCanvas.css';
+import './css/ParticleCanvas.css';
 
 class Particle {
   x: number;
