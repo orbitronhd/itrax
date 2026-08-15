@@ -17,6 +17,7 @@
   border-radius: 50%;
   opacity: 0;
   animation: particleFloat linear infinite;
+  will-change: transform, opacity;
 }
 
 .particle:nth-child(1) {

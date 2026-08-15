@@ -1,6 +1,5 @@
 import { CustomCursor } from './components/CustomCursor';
 import { ParticleCanvas } from './components/ParticleCanvas';
-import { GridBackground } from './components/GridBackground';
 import { FloatingParticles } from './components/FloatingParticles';
 
 function App() {
@@ -8,7 +7,6 @@ function App() {
     <>
       <CustomCursor />
       <ParticleCanvas />
-      <GridBackground />
       <FloatingParticles />
       {/* Future page content will go here */}
       <div style={{ position: 'relative', zIndex: 1, padding: '4rem', textAlign: 'center' }}>
