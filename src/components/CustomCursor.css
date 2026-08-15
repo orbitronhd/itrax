@@ -1,0 +1,28 @@
+/* ====================
+   CUSTOM CURSOR & TRANSITIONS
+   ==================== */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-bright);
+  border-radius: 50%;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  border-radius: 50%;
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+}
