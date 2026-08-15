@@ -1,3 +1,4 @@
+import { Navbar } from './components/Navbar';
 import { CustomCursor } from './components/CustomCursor';
 import { ParticleCanvas } from './components/ParticleCanvas';
 import { FloatingParticles } from './components/FloatingParticles';
@@ -5,6 +6,7 @@ import { FloatingParticles } from './components/FloatingParticles';
 function App() {
   return (
     <>
+      <Navbar />
       <CustomCursor />
       <ParticleCanvas />
       <FloatingParticles />
