@@ -35,28 +35,30 @@ export function Navbar() {
         <span className="logo-placeholder">iTrax</span>
       </a>
 
-      {/* Desktop Links */}
-      <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-        {navLinks.map((link) => (
-          <li key={link.label}>
-            <a href={link.href} onClick={closeMenu}>
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="nav-right">
+        {/* Desktop Links */}
+        <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <a href={link.href} onClick={closeMenu}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-      {/* Mobile Hamburger */}
-      <div
-        className={`hamburger ${isOpen ? 'open' : ''}`}
-        onClick={toggleMenu}
-        aria-label="Toggle navigation"
-        role="button"
-        tabIndex={0}
-      >
-        <span />
-        <span />
-        <span />
+        {/* Hamburger */}
+        <div
+          className={`hamburger ${isOpen ? 'open' : ''}`}
+          onClick={toggleMenu}
+          aria-label="Toggle navigation"
+          role="button"
+          tabIndex={0}
+        >
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
     </nav>
   );
