@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
-import './HeroBanner.css';
+import './css/HeroBanner.css';
 
 interface HeroBannerProps {
   title?: ReactNode;
+  subtitle?: ReactNode;
 }
 
 export function HeroBanner({
@@ -11,7 +12,8 @@ export function HeroBanner({
       INNOVATE. BUILD.&nbsp;
       <span className="hero-heading-accent">LEAD.</span>
     </>
-  )
+  ),
+  subtitle = 'Department Club of Information Technology, RSET',
 }: HeroBannerProps) {
   return (
     <section className="hero-banner" aria-label="Hero banner">
@@ -47,9 +49,11 @@ export function HeroBanner({
           {title}
         </h1>
 
-        <p className="hero-subheading">
-          Department Club of Information Technology, RSET
-        </p>
+        {subtitle && (
+          <p className="hero-subheading">
+            {subtitle}
+          </p>
+        )}
       </div>
     </section>
   );

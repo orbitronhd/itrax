@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import itraxLogo from '../assets/itrax-logo-small.png';
 import './css/Navbar.css';
 
 const navLinks = [
-  { label: 'Home', href: '#' },
-  { label: 'Execom', href: '#' },
-  { label: 'Events', href: '#' },
-  { label: 'Gallery', href: '#' },
-  { label: 'About Us', href: '#' },
-  { label: 'Contacts', href: '#' },
+  { label: 'Home', href: '/' },
+  { label: 'Execom', href: '/execom' },
+  { label: 'Events', href: '/events' },
+  { label: 'Gallery', href: '/gallery' },
 ];
 
 export function Navbar() {
@@ -32,18 +31,22 @@ export function Navbar() {
   return (
     <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
       {/* Brand Logo */}
-      <a href="#" className="logo" onClick={closeMenu}>
+      <Link to="/" className="logo" onClick={closeMenu}>
         <img src={itraxLogo} alt="iTrax Logo" className="logo-img" />
-      </a>
+      </Link>
 
       <div className="nav-right">
         {/* Desktop Links */}
         <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
           {navLinks.map((link) => (
             <li key={link.label}>
-              <a href={link.href} onClick={closeMenu}>
+              <NavLink
+                to={link.href}
+                onClick={closeMenu}
+                className={({ isActive }) => (isActive ? 'active' : '')}
+              >
                 {link.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

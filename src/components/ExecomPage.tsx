@@ -32,12 +32,15 @@ export function ExecomPage() {
 
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
-      <HeroBanner title={
-        <>
-          THE&nbsp;
-          <span className="hero-heading-accent">TEAM</span>
-        </>
-      } />
+      <HeroBanner 
+        title={
+          <>
+            THE&nbsp;
+            <span className="hero-heading-accent">TEAM</span>
+          </>
+        } 
+        subtitle={null}
+      />
 
       <section className="execom-section" aria-label="Executive Committee Members">
         <div className="execom-container">
