@@ -1,4 +1,4 @@
-import './UpcomingEvent.css';
+import './css/UpcomingEvent.css';
 
 export function UpcomingEvent() {
   return (

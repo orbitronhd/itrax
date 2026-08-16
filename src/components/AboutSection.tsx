@@ -1,4 +1,5 @@
-import './AboutSection.css';
+import { Link } from 'react-router-dom';
+import './css/AboutSection.css';
 
 const polaroids = [
   {
@@ -47,10 +48,10 @@ export function AboutSection() {
         {/* ── Row 2: Polaroid Grid ── */}
         <div className="polaroid-grid" role="list">
           {polaroids.map(({ label, href, rotate, id }) => (
-            <a
+            <Link
               key={id}
               id={id}
-              href={href}
+              to={href}
               className="polaroid-card"
               style={{ '--rotate': rotate } as React.CSSProperties}
               role="listitem"
@@ -76,7 +77,7 @@ export function AboutSection() {
                 {/* Label ON the polaroid frame */}
                 <span className="polaroid-label">{label}</span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

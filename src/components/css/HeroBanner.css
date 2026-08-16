@@ -154,7 +154,11 @@
   line-height: 1.08;
   letter-spacing: -0.04em;
   color: var(--text);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-heading:last-child {
+  margin-bottom: 0;
 }
 
 .hero-heading-accent {
@@ -172,7 +176,7 @@
   line-height: 1.7;
   color: var(--text-muted);
   max-width: 46ch;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
 }
 
 /* CTA buttons */

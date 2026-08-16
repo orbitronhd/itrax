@@ -1,6 +1,20 @@
-import './HeroBanner.css';
+import type { ReactNode } from 'react';
+import './css/HeroBanner.css';
 
-export function HeroBanner() {
+interface HeroBannerProps {
+  title?: ReactNode;
+  subtitle?: ReactNode;
+}
+
+export function HeroBanner({
+  title = (
+    <>
+      INNOVATE. BUILD.&nbsp;
+      <span className="hero-heading-accent">LEAD.</span>
+    </>
+  ),
+  subtitle = 'Department Club of Information Technology, RSET',
+}: HeroBannerProps) {
   return (
     <section className="hero-banner" aria-label="Hero banner">
       {/* ── Left: photo placeholder ── */}
@@ -32,13 +46,14 @@ export function HeroBanner() {
       {/* ── Right: text content ── */}
       <div className="hero-text-side">
         <h1 className="hero-heading">
-          INNOVATE. BUILD.&nbsp;
-          <span className="hero-heading-accent">LEAD.</span>
+          {title}
         </h1>
 
-        <p className="hero-subheading">
-          Department Club of Information Technology, RSET
-        </p>
+        {subtitle && (
+          <p className="hero-subheading">
+            {subtitle}
+          </p>
+        )}
       </div>
     </section>
   );

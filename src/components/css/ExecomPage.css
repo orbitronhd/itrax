@@ -1,0 +1,69 @@
+.execom-section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4rem 1.5rem 2rem; /* Added padding under Hero banner */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.execom-container {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; /* Reduced from 4rem */
+}
+
+.team-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.team-row > .team-group {
+  flex: 1;
+  min-width: 0; /* Prevents flex items from overflowing their container */
+}
+
+.team-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.team-group-header {
+  text-align: center;
+  margin-bottom: 2rem; /* Reduced from 3rem */
+  width: 100%;
+}
+
+.team-group-header h2 {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--text), var(--accent-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.accent-line {
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin: 0.5rem auto 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  border-radius: 3px;
+}
+
+@media (max-width: 1024px) {
+  .team-row {
+    flex-direction: column;
+    gap: 3rem; /* Reduced from 4rem */
+  }
+}
+

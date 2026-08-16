@@ -1,0 +1,369 @@
+/* ================================================
+   EXECOM FLIP CARD SYSTEM
+   ================================================ */
+
+.flip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: var(--space-xl);
+  width: 100%;
+}
+
+/* --- Card Shell --- */
+.flip-card {
+  flex: 1 1 300px;
+  max-width: 320px;
+  height: 390px;
+  perspective: 1200px;
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--radius-lg);
+}
+
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+  border-radius: var(--radius-lg);
+}
+
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+.flip-card-front *,
+.flip-card-back * {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Fix pointer events and 3D positioning on flip card sides */
+.flip-card .flip-card-front {
+  pointer-events: auto;
+  transform: rotateY(0deg) translateZ(1px);
+}
+.flip-card .flip-card-back {
+  pointer-events: none;
+  transform: rotateY(180deg) translateZ(1px);
+}
+.flip-card.is-flipped .flip-card-front {
+  pointer-events: none;
+}
+.flip-card.is-flipped .flip-card-back {
+  pointer-events: auto;
+}
+
+/* ---- FRONT — Poster Style ---- */
+.flip-card-front {
+  background: #050c1a;
+  border: 1.5px solid rgba(56, 189, 248, 0.12);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.flip-card:hover .flip-card-front {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56,189,248,0.15);
+}
+
+/* Watermark repeating role text */
+.fcf-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  padding: 0.5rem 0;
+}
+
+.fcf-watermark span {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  opacity: 0.055;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  user-select: none;
+}
+
+/* Photo layer */
+.fcf-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 88px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.fcf-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(0.95) contrast(1.05);
+  pointer-events: none;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.flip-card:hover .fcf-photo img {
+  transform: scale(1.07);
+}
+
+/* Gradient vignette fading photo into nameplate */
+.fcf-gradient {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 88px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #050c1a);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Name plate */
+.fcf-nameplate {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  padding: 0.8rem 1rem 0.7rem;
+  z-index: 3;
+  background: #050c1a;
+  border-top: 2.5px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.fcf-role-label {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+
+.fcf-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+/* ---- BACK — Style ---- */
+.flip-card-back {
+  transform: rotateY(180deg) translateZ(1px);
+  background: linear-gradient(145deg, #091525 0%, #040d1c 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.2);
+  padding: 1.75rem 1.4rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+/* Back watermark — same role text cloned from front, lower opacity */
+.fcb-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  padding: 0.5rem 0;
+  opacity: 0.6; /* applied on top of the span opacity */
+}
+
+.fcb-watermark span {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  opacity: 0.045;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  user-select: none;
+}
+
+/* Ensure all back content sits above the watermark */
+.flip-card-back > *:not(.fcb-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.fcb-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  flex: 1;
+  padding-bottom: 1.5rem;
+}
+
+.fcb-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.fcb-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(56, 189, 248, 0.75);
+  font-family: var(--font-body);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+}
+
+.fcb-name {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.fcb-role {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 1.25rem;
+  font-family: var(--font-body);
+  text-align: center;
+}
+
+.fcb-socials {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: auto;
+  width: 100%;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.social-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: var(--accent-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+}
+
+/* ---- Team Accent Colors ---- */
+.accent-cyan .fcf-nameplate   { border-color: #38bdf8; }
+.accent-cyan .fcf-role-label  { color: #38bdf8; }
+.accent-cyan .fcb-role         { color: #38bdf8; }
+
+.accent-purple .fcf-nameplate  { border-color: #a78bfa; }
+.accent-purple .fcf-role-label { color: #a78bfa; }
+.accent-purple .fcb-role       { color: #a78bfa; }
+
+.accent-pink .fcf-nameplate    { border-color: #f472b6; }
+.accent-pink .fcf-role-label   { color: #f472b6; }
+.accent-pink .fcb-role         { color: #f472b6; }
+
+.accent-green .fcf-nameplate   { border-color: #4ade80; }
+.accent-green .fcf-role-label  { color: #4ade80; }
+.accent-green .fcb-role        { color: #4ade80; }
+
+.accent-orange .fcf-nameplate  { border-color: #fb923c; }
+.accent-orange .fcf-role-label { color: #fb923c; }
+.accent-orange .fcb-role       { color: #fb923c; }
+
+.accent-amber .fcf-nameplate   { border-color: #fbbf24; }
+.accent-amber .fcf-role-label  { color: #fbbf24; }
+.accent-amber .fcb-role        { color: #fbbf24; }
+
+.accent-red .fcf-nameplate     { border-color: #f87171; }
+.accent-red .fcf-role-label    { color: #f87171; }
+.accent-red .fcb-role          { color: #f87171; }
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .flip-grid {
+    gap: 1.2rem;
+  }
+  .flip-card {
+    height: 380px;
+    max-width: 100%; /* Let cards expand on mobile */
+  }
+}
+
+@media (max-width: 500px) {
+  .flip-grid {
+    gap: 0.8rem;
+  }
+  .flip-card {
+    height: 360px;
+  }
+}

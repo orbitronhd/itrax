@@ -6,6 +6,7 @@ import { ParticleCanvas } from './components/ParticleCanvas';
 import { FloatingParticles } from './components/FloatingParticles';
 import { Footer } from './components/Footer';
 import { HomePage } from './components/HomePage';
+import { ExecomPage } from './components/ExecomPage';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -38,6 +39,7 @@ function App() {
       
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/execom" element={<ExecomPage />} />
       </Routes>
 
       <Footer />
