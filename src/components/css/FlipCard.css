@@ -3,21 +3,23 @@
    ================================================ */
 
 .flip-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
   width: 100%;
 }
 
 /* --- Card Shell --- */
 .flip-card {
+  flex: 1 1 300px;
+  max-width: 320px;
   height: 390px;
   perspective: 1200px;
   cursor: pointer;
   position: relative;
   border-radius: var(--radius-lg);
-  width: 100%;
 }
 
 .flip-card-inner {
@@ -314,25 +316,18 @@
 .accent-red .fcb-role          { color: #f87171; }
 
 /* ---- Responsive ---- */
-@media (max-width: 1024px) {
-  .flip-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @media (max-width: 768px) {
   .flip-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
   }
   .flip-card {
     height: 380px;
+    max-width: 100%; /* Let cards expand on mobile */
   }
 }
 
 @media (max-width: 500px) {
   .flip-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
   }
   .flip-card {
