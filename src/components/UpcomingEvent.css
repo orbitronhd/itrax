@@ -1,0 +1,193 @@
+/* ============================================================
+   UpcomingEvent — transparent background, 50vh
+   ============================================================ */
+
+.upcoming-event-section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  /* NO solid background so the dot grid from body shows through */
+  z-index: 1;
+}
+
+.upcoming-event-container {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── Poster Frame ── */
+.event-poster-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.event-polaroid {
+  --rotate: -3deg; /* Slight resting tilt */
+  background: #f8fafc;
+  padding: 1.25rem 1.25rem 4rem; /* Thick bottom border for polaroid label */
+  border-radius: 4px;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06),
+    0 12px 30px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+  transform: rotate(var(--rotate));
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+
+.event-polaroid:hover {
+  transform: rotate(0deg) translateY(-8px) scale(1.02);
+}
+
+.event-polaroid-photo {
+  width: 100%;
+  aspect-ratio: 10 / 11;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(2, 6, 23, 1) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+/* Shine effect on the photo */
+.event-polaroid-photo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: polaroidShine 6s infinite;
+}
+
+@keyframes polaroidShine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
+}
+
+.poster-label {
+  color: rgba(255,255,255,0.2);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── Paperclip & Label ── */
+.paperclip {
+  position: absolute;
+  top: -24px;
+  left: 20px;
+  width: 72px;
+  height: 72px;
+  transform: rotate(-15deg);
+  z-index: 10;
+  filter: drop-shadow(2px 6px 6px rgba(0,0,0,0.4));
+}
+
+.event-polaroid-label {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  width: calc(100% - 2.5rem);
+  text-align: left;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #334155;
+  letter-spacing: 0.08em;
+}
+
+/* ── Event Details ── */
+.event-details {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.event-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.event-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 90%;
+}
+
+.event-register-btn {
+  margin-top: 1rem;
+  padding: 0.85rem 2.25rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: none;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.event-register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.5);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .upcoming-event-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .event-details {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .event-description {
+    max-width: 100%;
+  }
+}

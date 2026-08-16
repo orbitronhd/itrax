@@ -1,0 +1,205 @@
+.about-section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.about-inner {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem; /* Extra breathing room */
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-intro {
+  text-align: left;
+}
+
+.about-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.about-title-accent {
+  background: linear-gradient(120deg, var(--accent-bright) 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.about-mission-box {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.about-mission-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 
+              0 0 20px rgba(56, 189, 248, 0.05) inset;
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.about-box-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.about-box-text {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Polaroid Grid ─────────────────────────────────────────── */
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem; /* Lots of space for the massive cards */
+  justify-items: center;
+  padding: 2rem 0 1rem;
+}
+
+.polaroid-card {
+  --rotate: 0deg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  transform: rotate(var(--rotate));
+  transition:
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    filter 0.4s ease-out;
+  will-change: transform;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.5));
+  width: 100%;
+  max-width: 480px; /* THIS IS THE MUCH LARGER SIZE */
+}
+
+.polaroid-card:hover {
+  transform: rotate(0deg) translateY(-16px) scale(1.05);
+  filter: drop-shadow(0 24px 48px rgba(56, 189, 248, 0.25));
+}
+
+.polaroid-photo {
+  background: #f8fafc;
+  padding: 1.25rem 1.25rem 4rem; /* Thick bottom border for polaroid */
+  border-radius: 4px;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  aspect-ratio: 10 / 12; /* Explicitly requested aspect ratio on the entire polaroid photo */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.polaroid-photo-placeholder {
+  width: 100%;
+  flex: 1; /* Automatically takes all space above the label */
+  background: linear-gradient(
+    135deg,
+    rgba(30, 58, 138, 0.35) 0%,
+    rgba(8, 16, 40, 0.7) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148, 163, 184, 0.4);
+  border-radius: 2px;
+}
+
+.polaroid-photo-placeholder svg {
+  width: 60px;
+  height: 60px;
+}
+
+.polaroid-card::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 90px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.polaroid-label {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.25rem; /* Align with the left edge of the placeholder */
+  width: calc(100% - 2.5rem);
+  text-align: left;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #334155; /* Written in dark ink on the white border */
+  letter-spacing: 0.08em;
+  transition: color 0.3s ease-out;
+}
+
+.polaroid-card:hover .polaroid-label {
+  color: #0284c7; /* Cyan highlight when hovered */
+}
+
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .about-intro {
+    text-align: center;
+  }
+
+  .polaroid-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .polaroid-grid {
+    grid-template-columns: 1fr;
+  }
+}

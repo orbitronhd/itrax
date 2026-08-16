@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import itraxLogo from '../assets/itrax-logo-small.png';
 import './css/Navbar.css';
 
 const navLinks = [
@@ -30,33 +31,35 @@ export function Navbar() {
 
   return (
     <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
-      {/* Placeholder Logo */}
+      {/* Brand Logo */}
       <a href="#" className="logo" onClick={closeMenu}>
-        <span className="logo-placeholder">iTrax</span>
+        <img src={itraxLogo} alt="iTrax Logo" className="logo-img" />
       </a>
 
-      {/* Desktop Links */}
-      <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-        {navLinks.map((link) => (
-          <li key={link.label}>
-            <a href={link.href} onClick={closeMenu}>
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="nav-right">
+        {/* Desktop Links */}
+        <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <a href={link.href} onClick={closeMenu}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-      {/* Mobile Hamburger */}
-      <div
-        className={`hamburger ${isOpen ? 'open' : ''}`}
-        onClick={toggleMenu}
-        aria-label="Toggle navigation"
-        role="button"
-        tabIndex={0}
-      >
-        <span />
-        <span />
-        <span />
+        {/* Hamburger */}
+        <div
+          className={`hamburger ${isOpen ? 'open' : ''}`}
+          onClick={toggleMenu}
+          aria-label="Toggle navigation"
+          role="button"
+          tabIndex={0}
+        >
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
     </nav>
   );
