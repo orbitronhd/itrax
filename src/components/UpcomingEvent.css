@@ -32,33 +32,45 @@
   align-items: center;
 }
 
-.event-poster-placeholder {
+.event-polaroid {
+  --rotate: -3deg; /* Slight resting tilt */
+  background: #f8fafc;
+  padding: 1.25rem 1.25rem 4rem; /* Thick bottom border for polaroid label */
+  border-radius: 4px;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06),
+    0 12px 30px rgba(0, 0, 0, 0.4);
   width: 100%;
   max-width: 360px;
-  aspect-ratio: 3 / 4; /* Typical poster ratio */
-  background: rgba(15, 23, 42, 0.2);
-  border: 1px solid rgba(56, 189, 248, 0.15);
-  border-radius: var(--radius-lg);
+  position: relative;
+  transform: rotate(var(--rotate));
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+
+.event-polaroid:hover {
+  transform: rotate(0deg) translateY(-8px) scale(1.02);
+}
+
+.event-polaroid-photo {
+  width: 100%;
+  aspect-ratio: 10 / 11;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(2, 6, 23, 1) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 
-              0 0 30px rgba(56, 189, 248, 0.05) inset;
-  backdrop-filter: blur(10px);
-  position: relative;
+  border-radius: 2px;
   overflow: hidden;
-  transition: transform 0.4s var(--ease-spring);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
 }
 
-.event-poster-placeholder:hover {
-  transform: translateY(-5px);
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4), 
-              0 0 30px rgba(56, 189, 248, 0.1) inset;
-}
-
-/* Add a subtle shine effect to the frame */
-.event-poster-placeholder::after {
+/* Shine effect on the photo */
+.event-polaroid-photo::after {
   content: '';
   position: absolute;
   top: 0;
@@ -68,26 +80,52 @@
   background: linear-gradient(
     to right,
     transparent,
-    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.04),
     transparent
   );
   transform: skewX(-25deg);
-  animation: posterShine 6s infinite;
+  animation: polaroidShine 6s infinite;
 }
 
-@keyframes posterShine {
+@keyframes polaroidShine {
   0% { left: -100%; }
   20% { left: 200%; }
   100% { left: 200%; }
 }
 
 .poster-label {
-  color: var(--text-dim);
+  color: rgba(255,255,255,0.2);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* ── Paperclip & Label ── */
+.paperclip {
+  position: absolute;
+  top: -24px;
+  left: 20px;
+  width: 72px;
+  height: 72px;
+  transform: rotate(-15deg);
+  z-index: 10;
+  filter: drop-shadow(2px 6px 6px rgba(0,0,0,0.4));
+}
+
+.event-polaroid-label {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  width: calc(100% - 2.5rem);
+  text-align: left;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #334155;
+  letter-spacing: 0.08em;
 }
 
 /* ── Event Details ── */
