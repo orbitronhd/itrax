@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import './HeroBanner.css';
 
 interface HeroBannerProps {
   title?: ReactNode;
 }
 
-export function HeroBanner({ 
+export function HeroBanner({
   title = (
     <>
       INNOVATE. BUILD.&nbsp;
