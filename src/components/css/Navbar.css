@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 0.6rem 2rem; /* Leaner padding */
+  padding: 0.35rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,6 +23,7 @@
 .navbar--scrolled {
   background: rgba(6, 10, 31, 0.95);
   border-bottom-color: rgba(37, 99, 235, 0.25);
+  padding: 0.25rem 2.5rem;
 }
 
 @keyframes navSlideDown {
@@ -35,16 +36,20 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  padding: 0;
+  margin: 0;
 }
 
-.logo-placeholder {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 1.2rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent-bright));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.logo-img {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.2));
+  transition: transform 0.3s var(--ease-out);
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
 }
 
 .nav-right {
@@ -148,6 +153,11 @@
 /* Mobile Menu Styles */
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.8rem 1.5rem;
+    padding: 0.35rem 1.25rem;
+  }
+
+  .logo-img {
+    height: 48px;
   }
 }
+

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import itraxLogo from '../assets/itrax-logo-small.png';
 import './css/Navbar.css';
 
 const navLinks = [
@@ -30,9 +31,9 @@ export function Navbar() {
 
   return (
     <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
-      {/* Placeholder Logo */}
+      {/* Brand Logo */}
       <a href="#" className="logo" onClick={closeMenu}>
-        <span className="logo-placeholder">iTrax</span>
+        <img src={itraxLogo} alt="iTrax Logo" className="logo-img" />
       </a>
 
       <div className="nav-right">
