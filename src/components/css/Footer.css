@@ -1,37 +1,376 @@
-/* ====================
-   FOOTER
-   ==================== */
-.footer {
+/* ============================================================
+   iTrax Club — Modern Flush Transparent Footer
+   Full-width layout without heavy background containers
+   ============================================================ */
+
+.footer-container {
   position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top: 1px solid rgba(56, 189, 248, 0.12);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 2.5rem 3.5rem 1.25rem;
+  margin-top: 4rem;
   z-index: 1;
-  border-top: 1px solid rgba(37, 99, 235, 0.1);
-  padding: var(--space-2xl);
-  text-align: center;
-  margin-top: var(--space-3xl);
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
-  pointer-events: none;
+  box-sizing: border-box;
 }
 
-.footer.footer--visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+.footer-content {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.7fr 1.5fr;
+  align-items: start;
+  gap: 3.5rem;
 }
 
-.footer p {
+/* ==================== COLUMN HEADINGS ==================== */
+.footer-col-heading {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+  position: relative;
+  padding-bottom: 0.4rem;
+  text-align: left;
+}
+
+.footer-col-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--accent-bright);
+  border-radius: 1px;
+}
+
+/* ==================== LEFT COLUMN: CONTACT & LOCATION ==================== */
+.footer-col-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footer-address {
+  font-size: 0.88rem;
   color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.footer-contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.footer-contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.contact-role {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+}
+
+.contact-name {
+  font-family: var(--font-body);
   font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.contact-phone {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f8fafc;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  display: inline-block;
+  width: fit-content;
+}
+
+.contact-phone:hover {
+  color: #f8fafc;
+}
+
+/* ==================== MIDDLE COLUMN: NAVIGATION ==================== */
+.footer-col-middle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footer-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-nav-link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.footer-nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent-bright);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-nav-link:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.footer-nav-link:hover::after {
+  width: 100%;
+}
+
+/* ==================== RIGHT COLUMN: FORM ==================== */
+.footer-col-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footer-contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.footer-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.footer-input-group {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.footer-field-label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.footer-input,
+.footer-textarea {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  resize: vertical;
+}
+
+.footer-input::placeholder,
+.footer-textarea::placeholder {
+  color: rgba(148, 163, 184, 0.45);
+  font-size: 0.82rem;
+}
+
+.footer-input:focus,
+.footer-textarea:focus {
+  outline: none;
+  border-color: var(--accent-bright);
+  background: rgba(15, 23, 42, 0.65);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.18);
+}
+
+.footer-form-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.15rem;
+}
+
+.footer-submit-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--accent-bright);
+  color: var(--accent-bright);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  align-self: flex-start;
+}
+
+.footer-btn-text {
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+.footer-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.footer-submit-btn:hover:not(:disabled) {
+  color: #ffffff;
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px);
+}
+
+.footer-submit-btn:hover:not(:disabled)::before {
+  transform: translateX(0);
+}
+
+.footer-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footer-status-msg {
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.footer-status-msg.success {
+  color: #4ade80;
+}
+
+.footer-status-msg.error {
+  color: #f87171;
+}
+
+/* ==================== BOTTOM BAR ==================== */
+.footer-bottom {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.footer-credits {
   margin: 0;
 }
 
-.footer a {
+.footer-highlight {
   color: var(--accent-bright);
-  text-decoration: none;
-  transition: color 0.2s;
+  font-weight: 600;
 }
 
-.footer a:hover {
-  color: var(--accent);
+.footer-copyright {
+  color: rgba(148, 163, 184, 0.6);
+  margin: 0;
+}
+
+/* ==================== RESPONSIVE BREAKPOINTS ==================== */
+@media (max-width: 1024px) {
+  .footer-container {
+    padding: 2.25rem 2rem 1.25rem;
+  }
+
+  .footer-content {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .footer-container {
+    padding: 2rem 1.5rem 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-submit-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer-container {
+    padding: 1.75rem 1.25rem 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .footer-form-row {
+    grid-template-columns: 1fr;
+  }
 }
