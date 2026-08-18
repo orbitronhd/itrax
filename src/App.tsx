@@ -8,6 +8,7 @@ import { Footer } from './components/Footer';
 import { HomePage } from './components/HomePage';
 import { ExecomPage } from './components/ExecomPage';
 import { GalleryPage } from './components/GalleryPage';
+import { EventsPage } from './components/EventsPage';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -41,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/execom" element={<ExecomPage />} />
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
       </Routes>
 
