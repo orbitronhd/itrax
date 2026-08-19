@@ -8,7 +8,6 @@ const WEB3FORMS_ACCESS_KEY = '4df57676-1515-4ec0-9c92-9e1bfe0760d3';
 interface ContactPerson {
   label: string;
   name: string;
-  phone: string;
   phoneDisplay: string;
 }
 
@@ -16,20 +15,12 @@ const keyContacts: ContactPerson[] = [
   {
     label: 'TEACHER INCHARGE',
     name: 'Ms. Bency Wilson',
-    phone: '+919447513374',
-    phoneDisplay: '+91 9447513374',
+    phoneDisplay: '+919447513374',
   },
   {
     label: 'CHAIRMAN',
     name: 'Justin Joven Malakkaran',
-    phone: '+917428519729',
-    phoneDisplay: '+91 7428519729',
-  },
-  {
-    label: 'TECH LEAD',
-    name: 'Freddie Scaria Jose',
-    phone: '+916238431271',
-    phoneDisplay: '+91 6238431271',
+    phoneDisplay: '+917428519729',
   },
 ];
 
@@ -88,7 +79,7 @@ export function Footer(): React.JSX.Element {
               <div key={contact.label} className="footer-contact-item">
                 <span className="contact-role">{contact.label}</span>
                 <span className="contact-name">{contact.name}</span>
-                <a href={`tel:${contact.phone}`} className="contact-phone">
+                <a className="contact-phone">
                   {contact.phoneDisplay}
                 </a>
               </div>
