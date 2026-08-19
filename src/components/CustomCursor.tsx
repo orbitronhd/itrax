@@ -54,7 +54,7 @@ export function CustomCursor() {
     };
 
     const attachListeners = () => {
-      const interactives = document.querySelectorAll('a, button, .btn, .card');
+      const interactives = document.querySelectorAll('a, button, .btn, .card, .hamburger, [role="button"]');
       interactives.forEach((el) => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
@@ -84,7 +84,7 @@ export function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(requestRef.current);
       observer.disconnect();
-      const interactives = document.querySelectorAll('a, button, .btn, .card');
+      const interactives = document.querySelectorAll('a, button, .btn, .card, .hamburger, [role="button"]');
       interactives.forEach((el) => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
