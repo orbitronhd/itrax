@@ -30,6 +30,31 @@ function ScrollToTop() {
   return null;
 }
 
+function PageTitleManager() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    switch (pathname) {
+      case '/':
+        document.title = 'Welcome to iTrax';
+        break;
+      case '/execom':
+        document.title = 'Execom - iTrax';
+        break;
+      case '/events':
+        document.title = 'Events - iTrax';
+        break;
+      case '/gallery':
+        document.title = 'Gallery - iTrax';
+        break;
+      default:
+        document.title = 'iTrax';
+    }
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <>
@@ -38,6 +63,7 @@ function App() {
       <ParticleCanvas />
       <FloatingParticles />
       <ScrollToTop />
+      <PageTitleManager />
       
       <Routes>
         <Route path="/" element={<HomePage />} />
