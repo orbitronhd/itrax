@@ -36,59 +36,34 @@ export function CustomCursor() {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     requestRef.current = requestAnimationFrame(renderCursor);
 
-    // Interactive hover effect logic
-    const handleMouseEnter = () => {
-      if (ringScaleRef.current && dotScaleRef.current) {
-        ringScaleRef.current.style.transform = 'scale(1)';
-        ringScaleRef.current.style.backgroundColor = 'rgba(56, 189, 248, 0.1)';
-        dotScaleRef.current.style.transform = 'scale(0.5)';
-      }
-    };
-
-    const handleMouseLeave = () => {
-      if (ringScaleRef.current && dotScaleRef.current) {
-        ringScaleRef.current.style.transform = 'scale(0.6)';
-        ringScaleRef.current.style.backgroundColor = 'transparent';
-        dotScaleRef.current.style.transform = 'scale(1)';
-      }
-    };
-
-    const attachListeners = () => {
-      const interactives = document.querySelectorAll('a, button, .btn, .card, .hamburger, [role="button"]');
-      interactives.forEach((el) => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-        el.addEventListener('mouseenter', handleMouseEnter);
-        el.addEventListener('mouseleave', handleMouseLeave);
-      });
-    };
-
-    attachListeners();
-
-    const observer = new MutationObserver((mutations) => {
-      let shouldAttach = false;
-      for (const mutation of mutations) {
-        if (mutation.addedNodes.length > 0) {
-          shouldAttach = true;
-          break;
+    // Interactive hover effect logic using event delegation
+    const handleMouseOver = (e: MouseEvent) => {
+      // Find if the cursor is over an interactive element or any of its children
+      const target = (e.target as HTMLElement | null)?.closest(
+        'a, button, .btn, .card, .hamburger, [role="button"], input, textarea, select, label, .polaroid-card, .flip-card, .event-box'
+      );
+      
+      if (target) {
+        if (ringScaleRef.current && dotScaleRef.current) {
+          ringScaleRef.current.style.transform = 'scale(1)';
+          ringScaleRef.current.style.backgroundColor = 'rgba(56, 189, 248, 0.1)';
+          dotScaleRef.current.style.transform = 'scale(0.5)';
+        }
+      } else {
+        if (ringScaleRef.current && dotScaleRef.current) {
+          ringScaleRef.current.style.transform = 'scale(0.6)';
+          ringScaleRef.current.style.backgroundColor = 'transparent';
+          dotScaleRef.current.style.transform = 'scale(1)';
         }
       }
-      if (shouldAttach) {
-        attachListeners();
-      }
-    });
+    };
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
       cancelAnimationFrame(requestRef.current);
-      observer.disconnect();
-      const interactives = document.querySelectorAll('a, button, .btn, .card, .hamburger, [role="button"]');
-      interactives.forEach((el) => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
     };
   }, []);
 
