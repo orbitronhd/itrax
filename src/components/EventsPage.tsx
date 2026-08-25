@@ -45,6 +45,9 @@ export function EventsPage() {
         if (yearMatch) {
           const year = parseInt(yearMatch[1], 10);
           timestamp = new Date(`${year}-01-01`).getTime();
+        } else if (event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH')) {
+          // Push TBD/TBA events to the top (future)
+          timestamp = Number.MAX_SAFE_INTEGER;
         }
       }
 

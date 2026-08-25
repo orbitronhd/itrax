@@ -18,113 +18,52 @@ import type { EventItem } from '../types/events';
  */
 
 export const eventsData: EventItem[] = [
-  // --- 2026 Events ---
   {
-    id: 'future-web-talk-2026',
-    name: 'Tech Talk: The Future of Web',
-    date: 'DEC 05, 2026',
-    type: 'Keynote',
-    registrationUrl: 'https://forms.gle/itrax-web-talk',
+    id: 'adaptathon-2026',
+    name: 'Adaptathon',
+    date: 'TBD',
+    type: 'Competition',
     status: 'upcoming',
   },
   {
-    id: 'ai-ml-bootcamp-2026',
-    name: 'AI/ML Fundamentals Bootcamp',
-    date: 'NOV 12, 2026',
-    type: 'Workshop',
-    registrationUrl: 'https://forms.gle/itrax-aiml-bootcamp',
-    status: 'upcoming',
-  },
-  {
-    id: 'hack-sprint-2026',
-    name: 'HackSprint 2026',
-    date: 'OCT 24, 2026',
-    type: 'Hackathon',
-    registrationUrl: 'https://forms.gle/itrax-hacksprint-2026',
-    status: 'upcoming',
-  },
-  {
-    id: 'cybersecurity-101-2026',
-    name: 'Cybersecurity 101',
-    date: 'SEP 15, 2026',
-    type: 'Session',
-    registrationUrl: 'https://forms.gle/itrax-cybersec-101',
-    status: 'upcoming',
-  },
-  {
-    id: 'cloud-devops-summit-2026',
-    name: 'Cloud & DevOps Summit',
-    date: 'JUL 18, 2026',
+    id: 'final-year-project-2026',
+    name: 'More Than Just A Final Year Project',
+    date: 'JUL 17, 2026',
     type: 'Workshop',
     status: 'completed',
   },
   {
-    id: 'intro-to-open-source-2026',
-    name: 'Intro to Open Source & Git',
-    date: 'MAY 10, 2026',
-    type: 'Hands-on',
-    status: 'completed',
-  },
-
-  // --- 2025 Events ---
-  {
-    id: 'web-dev-bootcamp-2025',
-    name: 'Full Stack Web Bootcamp',
-    date: 'OCT 18, 2025',
-    type: 'Bootcamp',
+    id: 'swiftf-2026',
+    name: 'SWI{F}TF',
+    date: 'MAR 13, 2026',
+    type: 'Competition',
     status: 'completed',
   },
   {
-    id: 'ethical-hacking-2025',
-    name: 'Cybersecurity & Ethical Hacking',
-    date: 'AUG 22, 2025',
+    id: 'forumtech-2026',
+    name: 'ForumTech',
+    date: 'FEB 13, 2026',
+    type: 'Debate',
+    status: 'completed',
+  },
+  {
+    id: 'git-started-2026',
+    name: 'Git Started',
+    date: 'FEB 06, 2026',
     type: 'Workshop',
     status: 'completed',
   },
   {
-    id: 'code-genesis-2025',
-    name: 'Code Genesis Hackathon',
-    date: 'FEB 14, 2025',
-    type: 'Hackathon',
+    id: 'c-tech-quiz-2026',
+    name: 'C Tech Quiz',
+    date: 'JAN 30, 2026',
+    type: 'Competition',
     status: 'completed',
   }
 ];
 
 export const fallbackEvents = eventsData;
 
-/**
- * Extracts a numeric timestamp from an event date string for sorting.
- */
-export function getEventTimestamp(dateStr: string): number {
-  const parsed = new Date(dateStr);
-  if (!isNaN(parsed.getTime())) {
-    return parsed.getTime();
-  }
-  const yearMatch = dateStr.match(/\b(20\d\d)\b/);
-  if (yearMatch) {
-    return new Date(`${yearMatch[1]}-01-01`).getTime();
-  }
-  return 0;
-}
-
-/**
- * Extracts the 4-digit year from an event date string.
- */
-export function getEventYear(dateStr: string): number {
-  const parsed = new Date(dateStr);
-  if (!isNaN(parsed.getTime())) {
-    return parsed.getFullYear();
-  }
-  const yearMatch = dateStr.match(/\b(20\d\d)\b/);
-  if (yearMatch) {
-    return parseInt(yearMatch[1], 10);
-  }
-  return new Date().getFullYear();
-}
-
-/**
- * Helper to determine whether an event is in the future.
- */
 export function isFutureEvent(event: EventItem): boolean {
   if (event.status === 'upcoming' || event.status === 'ongoing') return true;
   if (event.status === 'completed') return false;
