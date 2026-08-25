@@ -5,6 +5,7 @@
   padding: 0 var(--space-md);
 }
 
+
 .events-list {
   display: flex;
   flex-direction: column;
@@ -98,8 +99,8 @@
   /* Matching the exact end of the fade gradient */
   background: transparent;
   z-index: 2;
-  gap: var(--space-md);
-  /* Prevent wrapping, enforce single line */
+  gap: var(--space-lg);
+  /* Prevent wrapping, enforce single line on desktop */
   white-space: nowrap;
 }
 
@@ -122,6 +123,13 @@
 
 .event-box:hover .event-box-name h3 {
   color: var(--accent-bright);
+}
+
+.event-box-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
 }
 
 .event-box-date {
@@ -152,6 +160,51 @@
   text-transform: uppercase;
   flex-shrink: 0;
   border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Register Button for Upcoming Events */
+.event-box-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.event-register-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.45rem 1.15rem;
+  /* Outlined by default */
+  background: transparent;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: var(--radius-md); /* Box with rounded edges */
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.event-register-btn:hover,
+.event-register-btn:focus-visible {
+  /* Filled on hover/focus */
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(56, 189, 248, 0.9) 100%);
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+.event-register-btn .register-icon {
+  transition: transform 0.25s ease;
+}
+
+.event-register-btn:hover .register-icon {
+  transform: translate(2px, -2px);
 }
 
 .no-events {
@@ -201,12 +254,13 @@
 }
 
 /* Responsive constraints for smaller screens */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .event-details-bar {
     flex-direction: column;
     align-items: flex-start;
     padding: var(--space-lg) var(--space-md);
-    gap: var(--space-sm);
+    gap: var(--space-md);
+    white-space: normal;
   }
 
   .event-box-name {
@@ -217,7 +271,24 @@
     font-size: 1.25rem;
   }
 
+  .event-box-meta {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .event-box-action {
+    width: 100%;
+  }
+
+  .event-register-btn {
+    width: 100%;
+    padding: 0.6rem 1rem;
+  }
+
   .event-image-container {
     min-height: 160px;
   }
 }
+

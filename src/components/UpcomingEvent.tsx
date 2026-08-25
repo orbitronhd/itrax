@@ -1,6 +1,26 @@
+import { ArrowUpRight } from 'lucide-react';
+import type { EventItem } from '../types/events';
+import { eventsData } from '../data/eventsData';
 import './css/UpcomingEvent.css';
 
+function isFutureEvent(event: EventItem): boolean {
+  if (event.status === 'upcoming' || event.status === 'ongoing') return true;
+  if (event.status === 'completed') return false;
+
+  const parsed = new Date(event.date);
+  if (!isNaN(parsed.getTime())) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return parsed >= today;
+  }
+
+  return false;
+}
+
 export function UpcomingEvent() {
+  const nextEvent = eventsData.find(isFutureEvent) || eventsData[0];
+
+
   return (
     <section className="upcoming-event-section" aria-label="Upcoming Event">
       <div className="upcoming-event-container">
@@ -22,22 +42,48 @@ export function UpcomingEvent() {
             </svg>
             
             <div className="event-polaroid-photo" aria-hidden="true">
-              <span className="poster-label">Event Poster</span>
+              {nextEvent?.imageUrl ? (
+                <img 
+                  src={nextEvent.imageUrl} 
+                  alt={nextEvent.name} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+              ) : (
+                <span className="poster-label">{nextEvent?.type || 'Event Poster'}</span>
+              )}
             </div>
             
-            <span className="event-polaroid-label">COMING SOON</span>
+            <span className="event-polaroid-label">{nextEvent ? nextEvent.date : 'COMING SOON'}</span>
           </div>
         </div>
 
         {/* Right: Event Details */}
         <div className="event-details">
-          <h2 className="event-title">&lt;Event Name&gt;</h2>
+          <h2 className="event-title">{nextEvent ? nextEvent.name : 'Coming Soon'}</h2>
           <p className="event-description">
-            Event Description goes here. This is a placeholder for the upcoming event's details. Join us for an exciting experience filled with learning and innovation.
+            {nextEvent
+              ? `Join us for ${nextEvent.name}, an exciting ${nextEvent.type.toLowerCase()} happening on ${nextEvent.date}. Connect, learn, and build with the iTrax community!`
+              : "Stay tuned for upcoming events and workshops hosted by iTrax."}
           </p>
-          <button className="event-register-btn">Register</button>
+          {nextEvent?.registrationUrl ? (
+            <a 
+              href={nextEvent.registrationUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="upcoming-register-btn"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
+            >
+              <span>Register Now</span>
+              <ArrowUpRight size={18} />
+            </a>
+          ) : (
+            <a href="/events" className="upcoming-register-btn" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+              View All Events
+            </a>
+          )}
         </div>
       </div>
     </section>
   );
 }
+

@@ -1,5 +1,5 @@
 export interface EventItem {
-  id: string | number;
+  id: string;
   name: string;
   date: string;
   type: string;
@@ -7,3 +7,4 @@ export interface EventItem {
   registrationUrl?: string;
   status?: 'upcoming' | 'ongoing' | 'completed';
 }
+

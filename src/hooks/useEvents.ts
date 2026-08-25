@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import type { EventItem } from '../types/events';
 import { GOOGLE_SHEET_CSV_URL } from '../data/eventsConfig';
-import { fallbackEvents } from '../data/eventsData';
+import { eventsData } from '../data/eventsData';
 
 export function useEvents() {
-  const [events, setEvents] = useState<EventItem[]>(fallbackEvents);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [events, setEvents] = useState<EventItem[]>(eventsData);
+  const [loading, setLoading] = useState<boolean>(Boolean(GOOGLE_SHEET_CSV_URL));
   const [error, setError] = useState<string | null>(null);
   const [isLiveSheet, setIsLiveSheet] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchEvents() {
       if (!GOOGLE_SHEET_CSV_URL) {
-        setEvents(fallbackEvents);
+        setEvents(eventsData);
         setLoading(false);
         setIsLiveSheet(false);
         return;
@@ -31,13 +31,13 @@ export function useEvents() {
           setEvents(parsedEvents);
           setIsLiveSheet(true);
         } else {
-          setEvents(fallbackEvents);
+          setEvents(eventsData);
           setIsLiveSheet(false);
         }
       } catch (err) {
         console.error('Error fetching events from Google Sheet:', err);
         setError('Failed to load live events. Showing local data.');
-        setEvents(fallbackEvents);
+        setEvents(eventsData);
         setIsLiveSheet(false);
       } finally {
         setLoading(false);
