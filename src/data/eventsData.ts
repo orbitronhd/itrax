@@ -24,6 +24,7 @@ export const eventsData: EventItem[] = [
     date: 'TBD',
     type: 'Competition',
     status: 'upcoming',
+    imageUrl: '/src/assets/events/adaptathon.webp'
   },
   {
     id: 'final-year-project-2026',
@@ -31,6 +32,7 @@ export const eventsData: EventItem[] = [
     date: 'JUL 17, 2026',
     type: 'Workshop',
     status: 'completed',
+    imageUrl: '/src/assets/events/finalyearproject.webp'
   },
   {
     id: 'swiftf-2026',
@@ -38,6 +40,7 @@ export const eventsData: EventItem[] = [
     date: 'MAR 13, 2026',
     type: 'Competition',
     status: 'completed',
+    imageUrl: '/src/assets/events/swiftf.webp'
   },
   {
     id: 'forumtech-2026',
@@ -45,6 +48,7 @@ export const eventsData: EventItem[] = [
     date: 'FEB 13, 2026',
     type: 'Debate',
     status: 'completed',
+    imageUrl: '/src/assets/events/forumtech.webp'
   },
   {
     id: 'git-started-2026',
@@ -52,6 +56,8 @@ export const eventsData: EventItem[] = [
     date: 'FEB 06, 2026',
     type: 'Workshop',
     status: 'completed',
+    imageUrl: '/src/assets/events/gitstarted.webp'
+
   },
   {
     id: 'c-tech-quiz-2026',
@@ -59,6 +65,7 @@ export const eventsData: EventItem[] = [
     date: 'JAN 30, 2026',
     type: 'Competition',
     status: 'completed',
+    imageUrl: '/src/assets/events/ctechquiz.webp'
   }
 ];
 
