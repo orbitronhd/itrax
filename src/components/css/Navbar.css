@@ -12,25 +12,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(6, 10, 31, 0.7);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background: rgb(6, 10, 31);
   border-bottom: 1px solid rgba(37, 99, 235, 0.12);
   transition: all 0.4s var(--ease-out);
-  transform: translateY(-100%);
-  animation: navSlideDown 0.8s var(--ease-out) 1.2s forwards;
 }
 
 .navbar--scrolled {
-  background: rgba(6, 10, 31, 0.95);
   border-bottom-color: rgba(37, 99, 235, 0.25);
 }
 
-@keyframes navSlideDown {
-  to {
-    transform: translateY(0);
-  }
-}
 
 .navbar .logo {
   display: flex;
