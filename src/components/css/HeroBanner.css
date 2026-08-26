@@ -11,8 +11,9 @@
   left: 50%;
   transform: translateX(-50%);
 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   min-height: 50vh;
   overflow: hidden;
 
@@ -22,9 +23,21 @@
 
 /* ── Left column ─────────────────────────────────────────── */
 .hero-image-side {
-  position: relative;
-  min-height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  z-index: 0;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-image-placeholder {
@@ -94,27 +107,32 @@
 .hero-fade-overlay {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background: linear-gradient(
     to right,
-    transparent 0%,
-    transparent 30%,
-    rgba(8, 16, 40, 0.55) 60%,
-    var(--bg-secondary) 100%
+    rgba(8, 16, 40, 0) 0%,
+    rgba(8, 16, 40, 0) 25%,
+    rgba(8, 16, 40, 0.6) 50%,
+    rgba(8, 16, 40, 0.85) 100%
   );
-  pointer-events: none;
+  backdrop-filter: blur(12px);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 25%, black 50%, black 100%);
+  mask-image: linear-gradient(to right, transparent 0%, transparent 25%, black 50%, black 100%);
 }
 
 /* ── Right column ─────────────────────────────────────────── */
 .hero-text-side {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(2rem, 5vw, 5rem) clamp(2rem, 4vw, 4.5rem);
-  background: var(--bg-secondary);
   text-align: left;
-
-  /* Extend the fade seamlessly from the left column */
-  box-shadow: -80px 0 80px 0 var(--bg-secondary);
+  min-height: 50vh;
 }
 
 /* Eyebrow */
@@ -277,31 +295,32 @@
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .hero-banner {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   .hero-image-side {
-    height: 40vw;
-    min-height: 240px;
-    max-height: 360px;
+    position: absolute;
+    height: 100%;
     width: 100%;
   }
 
-  /* On mobile the fade goes bottom-to-top instead */
   .hero-fade-overlay {
     background: linear-gradient(
       to bottom,
       transparent 0%,
-      transparent 20%,
-      rgba(8, 16, 40, 0.55) 65%,
-      var(--bg-secondary) 100%
+      transparent 25%,
+      rgba(8, 16, 40, 0.75) 50%,
+      rgba(8, 16, 40, 0.95) 100%
     );
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 25%, black 50%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 25%, black 50%, black 100%);
   }
 
   .hero-text-side {
-    box-shadow: none;
-    padding: 2rem 1.5rem 3rem;
+    max-width: 100%;
+    min-height: auto;
+    padding: 4rem 1.5rem 3rem;
     text-align: center;
     align-items: center;
   }

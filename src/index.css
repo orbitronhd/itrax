@@ -1,7 +1,7 @@
 /* ============================================
    iTrax Club — Design System & Global Styles
    ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Oregano&display=swap');
 
 /* --- SURGICAL SCROLLBAR REMOVAL --- */
 *::-webkit-scrollbar {
@@ -73,7 +73,7 @@ html {
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
-  --radius-full: 50%;
+  --radius-full: 9999px;
 
   /* ---- Navigation Height ---- */
   --nav-height: 70px;

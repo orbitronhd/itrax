@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import eventsImage from '../assets/header/events.webp';
 import './css/AboutSection.css';
 
 const polaroids = [
@@ -19,6 +20,7 @@ const polaroids = [
     href: '/events',
     rotate: '-1deg',
     id: 'polaroid-events',
+    imgSrc: eventsImage,
   },
 ];
 
@@ -47,7 +49,7 @@ export function AboutSection() {
 
         {/* ── Row 2: Polaroid Grid ── */}
         <div className="polaroid-grid" role="list">
-          {polaroids.map(({ label, href, rotate, id }) => (
+          {polaroids.map(({ label, href, rotate, id, imgSrc }: any) => (
             <Link
               key={id}
               id={id}
@@ -58,22 +60,27 @@ export function AboutSection() {
               aria-label={`Go to ${label}`}
             >
               <div className="polaroid-photo">
-                {/* Placeholder image area */}
-                <div className="polaroid-photo-placeholder" aria-hidden="true">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <polyline points="21 15 16 10 5 21" />
-                  </svg>
-                </div>
+                {imgSrc ? (
+                  <div className="polaroid-photo-image">
+                    <img src={imgSrc} alt={label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                ) : (
+                  <div className="polaroid-photo-placeholder" aria-hidden="true">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                  </div>
+                )}
                 {/* Label ON the polaroid frame */}
                 <span className="polaroid-label">{label}</span>
               </div>
