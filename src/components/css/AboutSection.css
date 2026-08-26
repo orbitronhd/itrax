@@ -162,7 +162,7 @@
   left: 1.25rem; /* Align with the left edge of the placeholder */
   width: calc(100% - 2.5rem);
   text-align: left;
-  font-family: var(--font-serif);
+  font-family: 'Oregano', cursive;
   font-size: 1.65rem;
   font-weight: 700;
   text-transform: uppercase;

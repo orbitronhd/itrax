@@ -14,6 +14,7 @@
   padding: 4rem 2rem;
   /* NO solid background so the dot grid from body shows through */
   z-index: 1;
+  overflow: hidden; /* Clips the hanging strings so they don't enter the hero banner */
 }
 
 .upcoming-event-container {
@@ -32,24 +33,26 @@
   align-items: center;
 }
 
+.polaroid-hanger {
+  position: relative;
+  display: inline-block;
+  padding-top: 60px; /* Space for strings and clips */
+}
+
 .event-polaroid {
-  --rotate: -3deg; /* Slight resting tilt */
+  --rotate: 0deg; /* Hanging straight down */
   background: #f8fafc;
   padding: 1.25rem 1.25rem 4rem; /* Thick bottom border for polaroid label */
   border-radius: 4px;
   box-shadow:
-    0 2px 0 rgba(255, 255, 255, 0.06),
-    0 12px 30px rgba(0, 0, 0, 0.4);
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 20px 40px rgba(0, 0, 0, 0.3); /* Softer, wider drop shadow */
   width: 100%;
   max-width: 360px;
   position: relative;
   transform: rotate(var(--rotate));
   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   will-change: transform;
-}
-
-.event-polaroid:hover {
-  transform: rotate(0deg) translateY(-8px) scale(1.02);
 }
 
 .event-polaroid-photo {
@@ -102,16 +105,40 @@
   font-weight: 600;
 }
 
-/* ── Paperclip & Label ── */
-.paperclip {
+/* ── Hanger & Clips ── */
+.clip-assembly {
   position: absolute;
-  top: -24px;
-  left: 20px;
-  width: 72px;
-  height: 72px;
-  transform: rotate(-15deg);
+  top: 42px; /* 60px padding - 18px overlap = 42px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: 10;
-  filter: drop-shadow(2px 6px 6px rgba(0,0,0,0.4));
+  width: 48px;
+  height: 60px;
+}
+
+.clip-left {
+  left: 20%;
+}
+
+.clip-right {
+  right: 20%;
+}
+
+.clip-string {
+  width: 1.5px;
+  background: #ffffff;
+  position: absolute;
+  top: -120vh; /* Extremely long to go offscreen upwards, clipped by overflow:hidden on section */
+  height: calc(120vh + 8px); /* End exactly 8px down from top, touching the SVG loop */
+  z-index: -1; /* Behind the clip SVG */
+}
+
+.binder-clip {
+  width: 48px;
+  height: 60px;
+  /* transform removed; positioning is handled by clip-assembly */
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
 }
 
 .event-polaroid-label {
@@ -120,7 +147,7 @@
   left: 1.25rem;
   width: calc(100% - 2.5rem);
   text-align: left;
-  font-family: var(--font-serif);
+  font-family: 'Oregano', cursive;
   font-size: 1.65rem;
   font-weight: 700;
   text-transform: uppercase;
