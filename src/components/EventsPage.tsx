@@ -3,6 +3,7 @@ import { ImageIcon, Calendar, ArrowUpRight } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import { HeroBanner } from './HeroBanner';
+import eventsHeaderImg from '../assets/header/events.webp';
 import './css/EventsPage.css';
 
 interface ProcessedEvent {
@@ -73,6 +74,7 @@ export function EventsPage() {
           </>
         }
         subtitle="Explore workshops, hackathons, and tech sessions hosted by iTrax."
+        imageUrl={eventsHeaderImg}
       />
 
       <section className="events-page-section" aria-label="Events List">
