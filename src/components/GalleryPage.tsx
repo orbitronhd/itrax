@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { HeroBanner } from './HeroBanner';
 import { useGallery } from '../hooks/useGallery';
+import { CMS_GALLERY_IMAGE } from '../constants/cmsImages';
 import type { GalleryFolder, GalleryItem } from '../types/gallery';
 import './css/GalleryPage.css';
 
@@ -34,6 +35,7 @@ export function GalleryPage() {
           </>
         } 
         subtitle="A look back at our previous events, workshops, and competitions."
+        imageUrl={CMS_GALLERY_IMAGE}
       />
 
       <section className="gallery-section" aria-label="Event Highlights">
