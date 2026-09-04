@@ -1,19 +1,30 @@
 import { Link } from 'react-router-dom';
 import eventsImage from '../assets/header/events.webp';
+import { CMS_GALLERY_IMAGE, CMS_TEAM_IMAGE } from '../constants/cmsImages';
 import './css/AboutSection.css';
 
-const polaroids = [
+interface PolaroidItem {
+  label: string;
+  href: string;
+  rotate: string;
+  id: string;
+  imgSrc?: string;
+}
+
+const polaroids: PolaroidItem[] = [
   {
     label: 'Gallery',
     href: '/gallery',
     rotate: '-3deg',
     id: 'polaroid-gallery',
+    imgSrc: CMS_GALLERY_IMAGE,
   },
   {
     label: 'Meet the Team',
     href: '/execom',
     rotate: '1.5deg',
     id: 'polaroid-execom',
+    imgSrc: CMS_TEAM_IMAGE,
   },
   {
     label: 'Events',
@@ -49,7 +60,7 @@ export function AboutSection() {
 
         {/* ── Row 2: Polaroid Grid ── */}
         <div className="polaroid-grid" role="list">
-          {polaroids.map(({ label, href, rotate, id, imgSrc }: any) => (
+          {polaroids.map(({ label, href, rotate, id, imgSrc }) => (
             <Link
               key={id}
               id={id}
@@ -62,7 +73,7 @@ export function AboutSection() {
               <div className="polaroid-photo">
                 {imgSrc ? (
                   <div className="polaroid-photo-image">
-                    <img src={imgSrc} alt={label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={imgSrc} alt={label} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 ) : (
                   <div className="polaroid-photo-placeholder" aria-hidden="true">

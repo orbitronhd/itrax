@@ -1,6 +1,7 @@
 import { execomData } from '../data/execomData';
 import { FlipCard } from './FlipCard';
 import { HeroBanner } from './HeroBanner';
+import { CMS_TEAM_IMAGE } from '../constants/cmsImages';
 import './css/ExecomPage.css';
 
 export function ExecomPage() {
@@ -40,6 +41,7 @@ export function ExecomPage() {
           </>
         } 
         subtitle={null}
+        imageUrl={CMS_TEAM_IMAGE}
       />
 
       <section className="execom-section" aria-label="Executive Committee Members">
