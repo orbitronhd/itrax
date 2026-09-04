@@ -11,7 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.agents/
 itrax-old/
+skills-lock.json
 
 # Editor directories and files
 .vscode/*
