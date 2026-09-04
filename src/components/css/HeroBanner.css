@@ -116,9 +116,6 @@
     rgba(8, 16, 40, 0.6) 50%,
     rgba(8, 16, 40, 0.85) 100%
   );
-  backdrop-filter: blur(12px);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 25%, black 50%, black 100%);
-  mask-image: linear-gradient(to right, transparent 0%, transparent 25%, black 50%, black 100%);
 }
 
 /* ── Right column ─────────────────────────────────────────── */
@@ -313,8 +310,6 @@
       rgba(8, 16, 40, 0.75) 50%,
       rgba(8, 16, 40, 0.95) 100%
     );
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 25%, black 50%, black 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, transparent 25%, black 50%, black 100%);
   }
 
   .hero-text-side {
