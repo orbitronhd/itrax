@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
 import { eventsData } from '../data/eventsData';
 import './css/UpcomingEvent.css';
@@ -104,9 +105,9 @@ export function UpcomingEvent() {
               <ArrowUpRight size={18} />
             </a>
           ) : (
-            <a href="/events" className="upcoming-register-btn" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Link to="/events" className="upcoming-register-btn" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
               View All Events
-            </a>
+            </Link>
           )}
         </div>
       </div>
