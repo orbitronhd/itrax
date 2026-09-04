@@ -93,12 +93,17 @@ export function useGallery() {
     .filter((event) => event.galleryFolderId)
     .map((event) => {
       const items = itemsByFolder[event.galleryFolderId!] || [];
+      const firstImageItem = items.find(
+        (item) => !item.imageUrl.match(/\.(mp4|webm|mov)/i) && !item.imageUrl.includes('#video')
+      );
+      const cmsCover = firstImageItem?.imageUrl || items[0]?.imageUrl || event.imageUrl;
+
       return {
         id: event.id, // we use the Event's ID as the main key
         title: event.name,
         category: event.type,
         dateText: event.date,
-        coverImage: event.imageUrl,
+        coverImage: cmsCover,
         size: 'normal' as import('../types/gallery').BentoSize, // size can be random or computed
         description: `Highlights from ${event.name}`,
         items

@@ -6,8 +6,6 @@
   padding: var(--space-2xl) var(--space-xl);
   max-width: 1400px;
   margin: 0 auto;
-  position: relative;
-  z-index: 10;
 }
 
 .gallery-year-marker {
@@ -81,16 +79,33 @@
 }
 
 /* ============================================
-   2. GALLERY GRID & FOLDER CARDS
+   2. FOLDER GRID & FOLDER CARDS
    ============================================ */
-.gallery-bento-grid {
+.gallery-folder-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 240px;
+  grid-template-columns: repeat(1, 1fr);
   gap: var(--space-xl);
 }
 
-.bento-card {
+@media (min-width: 640px) {
+  .gallery-folder-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .gallery-folder-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .gallery-folder-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.folder-card {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -100,17 +115,11 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
   cursor: pointer;
+  aspect-ratio: 4/3;
 }
 
-/* Spans */
-.bento-card.span-normal { grid-column: span 1; grid-row: span 1; }
-.bento-card.span-wide { grid-column: span 2; grid-row: span 1; }
-.bento-card.span-tall { grid-column: span 1; grid-row: span 2; }
-.bento-card.span-hero { grid-column: span 2; grid-row: span 2; }
-
-.bento-media-container {
+.folder-media-container {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -119,7 +128,7 @@
   overflow: hidden;
 }
 
-.bento-media {
+.folder-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -127,7 +136,7 @@
   border: none;
 }
 
-.bento-placeholder {
+.folder-placeholder {
   width: 100%;
   height: 100%;
   display: flex;
@@ -138,16 +147,16 @@
   font-family: var(--font-body);
 }
 
-.bento-card:hover .bento-media {
+.folder-card:hover .folder-media {
   transform: scale(1.05);
 }
 
-.bento-card:hover {
+.folder-card:hover {
   border-color: rgba(56, 189, 248, 0.4);
   transform: translateY(-4px);
 }
 
-.bento-overlay {
+.folder-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(3, 7, 18, 0.85) 0%, rgba(3, 7, 18, 0.4) 50%, rgba(3, 7, 18, 0) 100%);
@@ -155,7 +164,7 @@
   pointer-events: none;
 }
 
-.bento-content {
+.folder-content {
   position: relative;
   z-index: 3;
   padding: var(--space-xl);
@@ -164,7 +173,7 @@
   pointer-events: none;
 }
 
-.bento-title {
+.folder-title {
   font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 700;
@@ -172,12 +181,12 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.bento-meta {
+.folder-meta {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
-.bento-badge {
+.folder-badge {
   position: absolute;
   top: var(--space-md);
   right: var(--space-md);
@@ -309,7 +318,6 @@
   overflow: hidden;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.05);
-  cursor: crosshair; /* indicates images are just for viewing */
 }
 
 .bento-image-card.span-normal { grid-column: span 1; grid-row: span 1; }
@@ -410,21 +418,12 @@
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 1024px) {
-  .gallery-bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .bento-card.span-hero { grid-column: span 2; grid-row: span 2; }
-  .bento-card.span-wide { grid-column: span 2; grid-row: span 1; }
-  
   .bento-viewer-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .gallery-section {
-    padding: var(--space-xl) var(--space-md);
-  }
   .bento-viewer-container {
     height: 100%;
     border-radius: 0;
@@ -435,18 +434,6 @@
 }
 
 @media (max-width: 640px) {
-  .gallery-bento-grid {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 220px;
-  }
-  .bento-card.span-hero,
-  .bento-card.span-wide,
-  .bento-card.span-tall,
-  .bento-card.span-normal {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-  }
-  
   .bento-viewer-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 150px;
