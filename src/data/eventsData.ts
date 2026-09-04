@@ -21,7 +21,7 @@ export const eventsData: EventItem[] = [
   {
     id: 'adaptathon-2026',
     name: 'Adaptathon',
-    date: 'TBD',
+    date: 'SEP 14, 2026',
     type: 'Competition',
     status: 'upcoming',
     imageUrl: '/src/assets/events/adaptathon.webp'
