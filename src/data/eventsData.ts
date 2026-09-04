@@ -24,7 +24,7 @@ export const eventsData: EventItem[] = [
     date: 'SEP 14, 2026',
     type: 'Competition',
     status: 'upcoming',
-    imageUrl: '/src/assets/events/adaptathon.webp'
+    imageUrl: new URL('../assets/events/adaptathon.webp', import.meta.url).href
   },
   {
     id: 'final-year-project-2026',
@@ -32,7 +32,7 @@ export const eventsData: EventItem[] = [
     date: 'JUL 17, 2026',
     type: 'Workshop',
     status: 'completed',
-    imageUrl: '/src/assets/events/finalyearproject.webp'
+    imageUrl: new URL('../assets/events/finalyearproject.webp', import.meta.url).href
   },
   {
     id: 'swiftf-2026',
@@ -41,7 +41,7 @@ export const eventsData: EventItem[] = [
     type: 'Competition',
     status: 'completed',
     galleryFolderId: 'switf',
-    imageUrl: '/src/assets/events/swiftf.webp'
+    imageUrl: new URL('../assets/events/swiftf.webp', import.meta.url).href
   },
   {
     id: 'forumtech-2026',
@@ -50,7 +50,7 @@ export const eventsData: EventItem[] = [
     type: 'Debate',
     status: 'completed',
     galleryFolderId: 'forumtech',
-    imageUrl: '/src/assets/events/forumtech.webp'
+    imageUrl: new URL('../assets/events/forumtech.webp', import.meta.url).href
   },
   {
     id: 'git-started-2026',
@@ -59,7 +59,7 @@ export const eventsData: EventItem[] = [
     type: 'Workshop',
     status: 'completed',
     galleryFolderId: 'gitstarted',
-    imageUrl: '/src/assets/events/gitstarted.webp'
+    imageUrl: new URL('../assets/events/gitstarted.webp', import.meta.url).href
 
   },
   {
@@ -69,7 +69,7 @@ export const eventsData: EventItem[] = [
     type: 'Competition',
     status: 'completed',
     galleryFolderId: 'ctechquiz',
-    imageUrl: '/src/assets/events/ctechquiz.webp'
+    imageUrl: new URL('../assets/events/ctechquiz.webp', import.meta.url).href
   }
 ];
 
