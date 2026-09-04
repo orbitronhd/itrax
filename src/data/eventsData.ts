@@ -40,6 +40,7 @@ export const eventsData: EventItem[] = [
     date: 'MAR 13, 2026',
     type: 'Competition',
     status: 'completed',
+    galleryFolderId: 'switf',
     imageUrl: '/src/assets/events/swiftf.webp'
   },
   {
@@ -48,6 +49,7 @@ export const eventsData: EventItem[] = [
     date: 'FEB 13, 2026',
     type: 'Debate',
     status: 'completed',
+    galleryFolderId: 'forumtech',
     imageUrl: '/src/assets/events/forumtech.webp'
   },
   {
@@ -56,6 +58,7 @@ export const eventsData: EventItem[] = [
     date: 'FEB 06, 2026',
     type: 'Workshop',
     status: 'completed',
+    galleryFolderId: 'gitstarted',
     imageUrl: '/src/assets/events/gitstarted.webp'
 
   },
@@ -65,6 +68,7 @@ export const eventsData: EventItem[] = [
     date: 'JAN 30, 2026',
     type: 'Competition',
     status: 'completed',
+    galleryFolderId: 'ctechquiz',
     imageUrl: '/src/assets/events/ctechquiz.webp'
   }
 ];

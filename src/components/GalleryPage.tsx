@@ -1,9 +1,30 @@
+import { useState, useMemo } from 'react';
 import { HeroBanner } from './HeroBanner';
-import { galleryData } from '../data/galleryData';
-import { ImageIcon } from 'lucide-react';
+import { GalleryFilterBar } from './gallery/GalleryFilterBar';
+import { GalleryGrid } from './gallery/GalleryGrid';
+import { GalleryBentoViewer } from './gallery/GalleryBentoViewer';
+import { useGallery } from '../hooks/useGallery';
 import './css/GalleryPage.css';
 
 export function GalleryPage() {
+  const { folders, loading, error } = useGallery();
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFolderId, setActiveFolderId] = useState<string | null>(null);
+
+  const categories = useMemo(() => {
+    const cats = new Set(folders.map(f => f.category));
+    return Array.from(cats);
+  }, [folders]);
+
+  const filteredFolders = useMemo(() => {
+    if (activeFilter === 'All') return folders;
+    return folders.filter(f => f.category === activeFilter);
+  }, [folders, activeFilter]);
+
+  const activeFolder = useMemo(() => {
+    return folders.find(f => f.id === activeFolderId) || null;
+  }, [folders, activeFolderId]);
+
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
       <HeroBanner 
@@ -22,22 +43,32 @@ export function GalleryPage() {
           <span className="accent-line"></span>
         </div>
         
-        <div className="gallery-bento-grid">
-          {galleryData.map((event) => (
-            <div 
-              key={event.id} 
-              className={`bento-card span-${event.size}`}
-            >
-              {/* Image Placeholder */}
-              <div className="bento-placeholder">
-                <ImageIcon size={48} strokeWidth={1} />
-              </div>
-              
-              <div className="bento-overlay"></div>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="gallery-loading">Loading memories...</div>
+        ) : error ? (
+          <div className="gallery-error">{error}</div>
+        ) : (
+          <>
+            <GalleryFilterBar 
+              categories={categories} 
+              activeFilter={activeFilter} 
+              onFilterChange={setActiveFilter} 
+            />
+            
+            <GalleryGrid 
+              folders={filteredFolders} 
+              onFolderClick={setActiveFolderId} 
+            />
+          </>
+        )}
       </section>
+
+      {activeFolder && (
+        <GalleryBentoViewer 
+          folder={activeFolder} 
+          onClose={() => setActiveFolderId(null)} 
+        />
+      )}
     </main>
   );
 }
