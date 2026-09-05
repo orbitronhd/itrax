@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { GalleryItem } from '../types/gallery';
 import { useEvents } from './useEvents';
-import { fetchCmsItems, GALLERY_CMS_SPREADSHEET_ID } from '../services/cms';
+import { fetchCmsItems, GALLERY_CMS_SPREADSHEET_ID } from '../services/cms/galleryCms';
 
 export { GALLERY_CMS_SPREADSHEET_ID };
 

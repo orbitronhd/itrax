@@ -1,8 +1,8 @@
-import type { GalleryItem } from '../types/gallery';
-import ctechquizImg from '../assets/events/ctechquiz.webp';
-import forumtechImg from '../assets/events/forumtech.webp';
-import gitstartedImg from '../assets/events/gitstarted.webp';
-import swiftfImg from '../assets/events/swiftf.webp';
+import type { GalleryItem } from '../../types/gallery';
+import ctechquizImg from '../../assets/events/ctechquiz.webp';
+import forumtechImg from '../../assets/events/forumtech.webp';
+import gitstartedImg from '../../assets/events/gitstarted.webp';
+import swiftfImg from '../../assets/events/swiftf.webp';
 
 export const GALLERY_CMS_SPREADSHEET_ID = '19MZurj2vhcXgPNNTvuYfaNPbF1IBmxD1GVYRUg7P0xc';
 

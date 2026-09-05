@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
 import type { EventItem } from '../types/events';
-import { GOOGLE_SHEET_CSV_URL } from '../data/eventsConfig';
+import { fetchCmsEvents } from '../services/cms/eventsCms';
 import { eventsData } from '../data/eventsData';
 
 export function useEvents() {
   const [events, setEvents] = useState<EventItem[]>(eventsData);
-  const [loading, setLoading] = useState<boolean>(Boolean(GOOGLE_SHEET_CSV_URL));
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiveSheet, setIsLiveSheet] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchEvents() {
-      if (!GOOGLE_SHEET_CSV_URL) {
-        setEvents(eventsData);
-        setLoading(false);
-        setIsLiveSheet(false);
-        return;
-      }
-
+    async function loadEvents() {
       try {
-        const response = await fetch(GOOGLE_SHEET_CSV_URL);
-        if (!response.ok) {
-          throw new Error('Failed to fetch Google Sheet data');
-        }
-
-        const csvText = await response.text();
-        const parsedEvents = parseCSV(csvText);
+        const parsedEvents = await fetchCmsEvents();
 
         if (parsedEvents.length > 0) {
-          setEvents(parsedEvents);
+          // If CMS has events, merge them or use them directly.
+          // For images, if the CMS field is blank, we can attempt to fallback
+          // to the local image if the event IDs match.
+          const mergedEvents = parsedEvents.map(cmsEvent => {
+            if (!cmsEvent.imageUrl) {
+              const localMatch = eventsData.find(e => e.id === cmsEvent.id);
+              if (localMatch && localMatch.imageUrl) {
+                return { ...cmsEvent, imageUrl: localMatch.imageUrl };
+              }
+            }
+            return cmsEvent;
+          });
+
+          setEvents(mergedEvents);
           setIsLiveSheet(true);
         } else {
           setEvents(eventsData);
@@ -44,51 +44,8 @@ export function useEvents() {
       }
     }
 
-    fetchEvents();
+    loadEvents();
   }, []);
 
   return { events, loading, error, isLiveSheet };
-}
-
-/**
- * Basic CSV parser for Google Sheets export.
- * Expects columns roughly mapped to: id, name, date, type, imageUrl, registrationUrl, status
- */
-function parseCSV(csvText: string): EventItem[] {
-  const lines = csvText.split('\n').filter((line) => line.trim() !== '');
-  if (lines.length < 2) return []; // Only header or empty
-
-  const headers = lines[0].split(',').map((h) => h.replace(/"/g, '').trim().toLowerCase());
-
-  const parsedEvents: EventItem[] = [];
-
-  for (let i = 1; i < lines.length; i++) {
-    // Basic CSV splitting handling quotes
-    const row = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-    if (!row) continue;
-
-    const values = row.map((v) => v.replace(/^"|"$/g, '').trim());
-
-    // Construct event item from row based on header index
-    const event: Partial<EventItem> = {
-      id: i.toString()
-    };
-
-    headers.forEach((header, index) => {
-      const val = values[index] || '';
-      if (header.includes('name') || header.includes('title')) event.name = val;
-      if (header.includes('date') || header.includes('time')) event.date = val;
-      if (header.includes('type') || header.includes('category')) event.type = val;
-      if (header.includes('image') || header.includes('photo')) event.imageUrl = val;
-      if (header.includes('url') || header.includes('link') || header.includes('register')) event.registrationUrl = val;
-      if (header.includes('status')) event.status = val as 'upcoming' | 'ongoing' | 'completed';
-    });
-
-    // Only add if it has the bare minimum required fields
-    if (event.name && event.date && event.type) {
-      parsedEvents.push(event as EventItem);
-    }
-  }
-
-  return parsedEvents;
 }
