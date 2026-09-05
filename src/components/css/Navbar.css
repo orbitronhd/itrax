@@ -149,5 +149,65 @@
   .logo-img {
     height: 48px;
   }
+
+  /* Reset the desktop hover expansion defaults */
+  .nav-links {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    background: rgba(6, 10, 31, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+    /* Instead of width expansion, animate height/opacity */
+    max-width: none;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: all 0.4s var(--ease-spring);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-links li {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 1.25rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-links a::after {
+    display: none; /* Hide hover line on mobile */
+  }
+
+  .nav-links.open {
+    height: auto; /* Fallback */
+    height: calc(100vh - var(--nav-height)); /* Take up full screen minus navbar */
+    padding: 1rem 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links.open li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animation for links */
+  .nav-links.open li:nth-child(1) { transition-delay: 0.1s; }
+  .nav-links.open li:nth-child(2) { transition-delay: 0.15s; }
+  .nav-links.open li:nth-child(3) { transition-delay: 0.2s; }
+  .nav-links.open li:nth-child(4) { transition-delay: 0.25s; }
 }
 

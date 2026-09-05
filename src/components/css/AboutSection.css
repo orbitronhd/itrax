@@ -212,4 +212,12 @@
   .polaroid-grid {
     grid-template-columns: 1fr;
   }
+  
+  .about-section {
+    padding: 3rem 1.5rem;
+  }
+  
+  .polaroid-card {
+    max-width: 100%;
+  }
 }
