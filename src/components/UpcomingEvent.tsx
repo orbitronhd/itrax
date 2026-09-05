@@ -1,7 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
-import { eventsData } from '../data/eventsData';
+import { useEvents } from '../hooks/useEvents';
 import './css/UpcomingEvent.css';
 
 function isFutureEvent(event: EventItem): boolean {
@@ -19,7 +19,8 @@ function isFutureEvent(event: EventItem): boolean {
 }
 
 export function UpcomingEvent() {
-  const nextEvent = eventsData.find(isFutureEvent) || eventsData[0];
+  const { events, loading } = useEvents();
+  const nextEvent = events.find(isFutureEvent) || events[0];
 
 
   return (
@@ -69,7 +70,9 @@ export function UpcomingEvent() {
             <div className="event-polaroid">
             
             <div className="event-polaroid-photo" aria-hidden="true">
-              {nextEvent?.imageUrl ? (
+              {loading ? (
+                <div style={{ width: '100%', height: '100%', backgroundColor: '#1e293b', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+              ) : nextEvent?.imageUrl ? (
                 <img 
                   src={nextEvent.imageUrl} 
                   alt={nextEvent.name} 
@@ -80,20 +83,22 @@ export function UpcomingEvent() {
               )}
             </div>
             
-            <span className="event-polaroid-label">{nextEvent ? nextEvent.date : 'COMING SOON'}</span>
+            <span className="event-polaroid-label">{loading ? 'LOADING...' : nextEvent ? nextEvent.date : 'COMING SOON'}</span>
             </div>
           </div>
         </div>
 
         {/* Right: Event Details */}
         <div className="event-details">
-          <h2 className="event-title">{nextEvent ? nextEvent.name : 'Coming Soon'}</h2>
+          <h2 className="event-title">{loading ? 'Loading Event...' : nextEvent ? nextEvent.name : 'Coming Soon'}</h2>
           <p className="event-description">
-            {nextEvent
+            {loading 
+              ? "Fetching the latest upcoming event details from our database..."
+              : nextEvent
               ? `Join us for ${nextEvent.name}, an exciting ${nextEvent.type.toLowerCase()} happening on ${nextEvent.date}. Connect, learn, and build with the iTrax community!`
               : "Stay tuned for upcoming events and workshops hosted by iTrax."}
           </p>
-          {nextEvent?.registrationUrl ? (
+          {nextEvent?.registrationUrl && !loading ? (
             <a 
               href={nextEvent.registrationUrl} 
               target="_blank" 
