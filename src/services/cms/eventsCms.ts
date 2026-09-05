@@ -40,7 +40,7 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
 
       const events: EventItem[] = [];
 
-      rows.forEach((row: { c?: Array<{ v?: string | number | null } | null> }) => {
+      rows.forEach((row: { c?: Array<{ v?: string | number | null, f?: string } | null> }) => {
         const cells = row.c;
         if (!cells) return;
 
@@ -49,7 +49,8 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         if (!id || id.toLowerCase() === 'id') return;
 
         const name = String(cells[1]?.v || '');
-        const date = String(cells[2]?.v || '');
+        const dateCell = cells[2];
+        const date = String(dateCell?.f || dateCell?.v || '');
         const type = String(cells[3]?.v || '');
         const imageUrl = String(cells[4]?.v || '').trim();
         const registrationUrl = String(cells[5]?.v || '').trim();
