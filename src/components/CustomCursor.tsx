@@ -13,6 +13,12 @@ export function CustomCursor() {
   const requestRef = useRef<number>(0);
 
   useEffect(() => {
+    // Optimization: Do not run cursor animation logic on touch devices
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (isTouchDevice) {
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;

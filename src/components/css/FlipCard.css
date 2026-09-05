@@ -13,7 +13,7 @@
 
 /* --- Card Shell --- */
 .flip-card {
-  flex: 1 1 300px;
+  flex: 1 1 260px;
   max-width: 320px;
   height: 390px;
   perspective: 1200px;

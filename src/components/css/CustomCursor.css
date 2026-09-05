@@ -31,3 +31,10 @@
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, border-color 0.2s;
   will-change: transform, background-color;
 }
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot-pos,
+  .cursor-ring-pos {
+    display: none !important;
+  }
+}
