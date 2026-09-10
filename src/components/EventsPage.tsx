@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
-import { ImageIcon, Calendar, ArrowUpRight } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
+import { ArrowUpRight, Camera } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import { HeroBanner } from './HeroBanner';
@@ -10,7 +11,6 @@ interface ProcessedEvent {
   event: EventItem;
   timestamp: number;
 }
-
 
 /**
  * Helper to determine whether an event is in the future.
@@ -29,8 +29,140 @@ function isFutureEvent(event: EventItem): boolean {
   return false;
 }
 
+// Custom hook for the split-flap character cycling effect
+function useSplitFlap(text: string, isReady: boolean) {
+  const [displayText, setDisplayText] = useState('');
+  const [isFlipping, setIsFlipping] = useState(false);
+
+  useEffect(() => {
+    if (!isReady || !text) return;
+    
+    setIsFlipping(true);
+    let iteration = 0;
+    const maxIterations = 15;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ';
+    
+    const interval = setInterval(() => {
+      if (iteration >= maxIterations) {
+        clearInterval(interval);
+        setDisplayText(text);
+        setIsFlipping(false);
+        return;
+      }
+      
+      const randomText = text.split('').map((char) => {
+        if (char === ' ' && Math.random() > 0.5) return ' ';
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      
+      setDisplayText(randomText);
+      iteration++;
+    }, 40); // 40ms between flips
+    
+    return () => clearInterval(interval);
+  }, [text, isReady]);
+
+  return { displayText: displayText || text, isFlipping };
+}
+
+// A component that renders a string with split-flap animation on mount
+function SplitFlapText({ text, isReady }: { text: string; isReady: boolean }) {
+  const { displayText, isFlipping } = useSplitFlap(text, isReady);
+  
+  return (
+    <>
+      {displayText.split('').map((char, i) => (
+        <span key={i} className={`split-flap-char ${isFlipping ? 'flipping' : ''}`}>
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
+    </>
+  );
+}
+
+
+function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
+  const isUpcoming = isFutureEvent(event);
+  
+  // Determine Status/Remarks
+  let statusClass = '';
+  let statusText = '';
+  
+  const isTBD = event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH');
+
+  if (event.status === 'ongoing') {
+    statusClass = 'status-live';
+    statusText = 'LIVE';
+  } else if (isTBD) {
+    statusClass = 'status-tbd';
+    statusText = 'TBD';
+  } else if (isUpcoming && event.registrationUrl) {
+    statusClass = 'status-register';
+    statusText = 'REGISTER';
+  } else if (isUpcoming) {
+    statusClass = 'status-upcoming';
+    statusText = 'UPCOMING';
+  } else {
+    statusClass = 'status-completed';
+    statusText = 'COMPLETED';
+  }
+
+  return (
+    <div className="board-row">
+      <div className="board-cell">
+        <SplitFlapText text={event.date} isReady={isReady} />
+      </div>
+      <div className="board-cell cell-event">
+        <SplitFlapText text={event.name} isReady={isReady} />
+      </div>
+      <div className="board-cell">
+        <SplitFlapText text={event.type} isReady={isReady} />
+      </div>
+      <div className="board-cell cell-status">
+        {statusClass === 'status-register' && event.registrationUrl ? (
+          <a
+            href={event.registrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="status-register"
+            aria-label={`Register for ${event.name}`}
+          >
+            <SplitFlapText text="REGISTER" isReady={isReady} />
+            <ArrowUpRight size={16} strokeWidth={2.5} style={{ marginLeft: '4px' }} />
+          </a>
+        ) : (
+          <span className={statusClass}>
+            <SplitFlapText text={statusText} isReady={isReady} />
+          </span>
+        )}
+        
+        {event.galleryFolderId && (
+          <Link 
+            to={`/gallery#${event.id}`} 
+            className="gallery-link" 
+            title="View Gallery"
+            aria-label={`View gallery for ${event.name}`}
+          >
+            <Camera size={18} />
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
 export function EventsPage() {
   const { events, loading } = useEvents();
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      // Small delay before starting animations to ensure DOM is ready
+      const timer = setTimeout(() => setIsReady(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   const sortedEvents = useMemo(() => {
     const processed: ProcessedEvent[] = [];
@@ -63,7 +195,6 @@ export function EventsPage() {
 
   const totalEventsCount = sortedEvents.length;
 
-
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
       <HeroBanner
@@ -77,91 +208,39 @@ export function EventsPage() {
         imageUrl={eventsHeaderImg}
       />
 
-      <section className="events-page-section" aria-label="Events List">
-        {loading ? (
-          // Loading Skeleton
-          <div className="events-list">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="event-box skeleton-box">
-                <div className="event-image-container skeleton-image">
-                  <div className="event-image-fade" />
-                </div>
-                <div className="event-details-bar">
-                  <div className="skeleton-text skeleton-name" />
-                  <div className="skeleton-text skeleton-date" />
-                  <div className="skeleton-text skeleton-type" />
-                </div>
-              </div>
-            ))}
+      <section className="departure-board-section" aria-label="Events Departure Board">
+        <div className="departure-board">
+          <div className="board-columns">
+            <div className="board-col-header">DATE</div>
+            <div className="board-col-header">EVENT</div>
+            <div className="board-col-header">TYPE</div>
+            <div className="board-col-header">STATUS</div>
           </div>
-        ) : totalEventsCount > 0 ? (
-          // Flat List of Events
-          <div className="events-list">
-            {sortedEvents.map((event) => {
-              const isUpcoming = isFutureEvent(event);
-
-              return (
-                <div key={event.id} className="event-box">
-                  <div className="event-image-container">
-                    {event.imageUrl ? (
-                      <img
-                        src={event.imageUrl}
-                        alt={`${event.name} poster`}
-                        className="event-image"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="event-image-placeholder" aria-label="Event poster placeholder">
-                        <ImageIcon size={64} strokeWidth={1} />
-                      </div>
-                    )}
-                    {/* The gradient overlay fading into the bottom details section */}
-                    <div className="event-image-fade" />
-                  </div>
-
-                  <div className="event-details-bar">
-                    <div className="event-box-name">
-                      <h3>{event.name}</h3>
-                    </div>
-
-                    <div className="event-box-meta">
-                      <div className="event-box-date">
-                        <Calendar size={18} strokeWidth={2} />
-                        <span>{event.date}</span>
-                      </div>
-
-                      <div className="event-box-type">
-                        <span>{event.type}</span>
-                      </div>
-
-                      {isUpcoming && event.registrationUrl && (
-                        <div className="event-box-action">
-                          <a
-                            href={event.registrationUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="event-register-btn"
-                            aria-label={`Register for ${event.name}`}
-                          >
-                            <span>Register</span>
-                            <ArrowUpRight size={16} strokeWidth={2.5} className="register-icon" />
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+          
+          {loading ? (
+            <div className="board-rows skeleton-board">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="skeleton-row">
+                  <div className="skeleton-cell" style={{ width: '80%' }}></div>
+                  <div className="skeleton-cell" style={{ width: '100%' }}></div>
+                  <div className="skeleton-cell" style={{ width: '60%' }}></div>
+                  <div className="skeleton-cell" style={{ width: '70%' }}></div>
                 </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="no-events">
-            <p>No events found. Stay tuned!</p>
-          </div>
-        )}
+              ))}
+            </div>
+          ) : totalEventsCount > 0 ? (
+            <div className="board-rows">
+              {sortedEvents.map((event) => (
+                <BoardRow key={event.id} event={event} isReady={isReady} />
+              ))}
+            </div>
+          ) : (
+            <div className="no-events">
+              <p>No events found. Stay tuned!</p>
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );
 }
-
-

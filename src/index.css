@@ -1,7 +1,7 @@
 /* ============================================
    iTrax Club — Design System & Global Styles
    ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Oregano&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Oregano&family=Share+Tech+Mono&display=swap');
 
 /* --- SURGICAL SCROLLBAR REMOVAL --- */
 *::-webkit-scrollbar {
@@ -58,6 +58,8 @@ html {
   --font-heading: 'Instrument Sans', sans-serif;
   --font-body: 'Instrument Sans', sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+  --font-dot-matrix: 'Doto', var(--font-mono);
 
   /* ---- Spacing ---- */
   --space-xs: 0.25rem;
