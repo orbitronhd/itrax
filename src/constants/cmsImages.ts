@@ -4,6 +4,7 @@
  */
 
 // Featured team photo from SWI-TF event in CMS
+// Featured team photo from SWI-TF event in CMS
 export const CMS_TEAM_IMAGE = 'https://lh3.googleusercontent.com/d/1NZWFfQAps-rPfvRMmU_P-v-ZI7ThzNEz';
 
 // Featured gallery/workshop photo from Git Started event in CMS

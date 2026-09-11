@@ -5,6 +5,7 @@ export interface EventItem {
   type: string;
   imageUrl?: string;
   registrationUrl?: string;
+  description?: string;
   status?: 'upcoming' | 'ongoing' | 'completed';
   galleryFolderId?: string;
 }
