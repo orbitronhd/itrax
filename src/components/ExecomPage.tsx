@@ -1,7 +1,5 @@
 import { execomData } from '../data/execomData';
 import { FlipCard } from './FlipCard';
-import { HeroBanner } from './HeroBanner';
-import { CMS_TEAM_IMAGE } from '../constants/cmsImages';
 import './css/ExecomPage.css';
 
 export function ExecomPage() {
@@ -33,18 +31,11 @@ export function ExecomPage() {
 
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
-      <HeroBanner 
-        title={
-          <>
-            THE&nbsp;
-            <span className="hero-heading-accent">TEAM</span>
-          </>
-        } 
-        subtitle={null}
-        imageUrl={CMS_TEAM_IMAGE}
-      />
-
-      <section className="execom-section" aria-label="Executive Committee Members">
+      <section className="execom-section" aria-label="Executive Committee Members" style={{ paddingTop: 'var(--space-2xl)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'var(--space-3xl)', width: '100%' }}>
+          <h1 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)', color: 'var(--text)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)', fontWeight: 800 }}>Executive Committee</h1>
+          <p style={{ color: 'var(--accent-bright)', fontSize: '1rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Meet the minds behind iTrax</p>
+        </div>
         <div className="execom-container">
           {renderGroup('Faculty Incharge')}
           {renderGroup('Core Committee')}

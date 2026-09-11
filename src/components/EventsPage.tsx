@@ -1,10 +1,9 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowUpRight, Camera } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
-import { HeroBanner } from './HeroBanner';
-import eventsHeaderImg from '../assets/header/events.webp';
 import './css/EventsPage.css';
 
 interface ProcessedEvent {
@@ -30,44 +29,51 @@ function isFutureEvent(event: EventItem): boolean {
 }
 
 // Custom hook for the split-flap character cycling effect
-function useSplitFlap(text: string, isReady: boolean) {
+function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
   const [displayText, setDisplayText] = useState('');
   const [isFlipping, setIsFlipping] = useState(false);
 
   useEffect(() => {
     if (!isReady || !text) return;
     
-    setIsFlipping(true);
-    let iteration = 0;
-    const maxIterations = 15;
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ';
+    let interval: ReturnType<typeof setInterval>;
     
-    const interval = setInterval(() => {
-      if (iteration >= maxIterations) {
-        clearInterval(interval);
-        setDisplayText(text);
-        setIsFlipping(false);
-        return;
-      }
+    const timeout = setTimeout(() => {
+      setIsFlipping(true);
+      let iteration = 0;
+      const maxIterations = 15;
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ';
       
-      const randomText = text.split('').map((char) => {
-        if (char === ' ' && Math.random() > 0.5) return ' ';
-        return chars[Math.floor(Math.random() * chars.length)];
-      }).join('');
-      
-      setDisplayText(randomText);
-      iteration++;
-    }, 40); // 40ms between flips
+      interval = setInterval(() => {
+        if (iteration >= maxIterations) {
+          clearInterval(interval);
+          setDisplayText(text);
+          setIsFlipping(false);
+          return;
+        }
+        
+        const randomText = text.split('').map((char) => {
+          if (char === ' ' && Math.random() > 0.5) return ' ';
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        
+        setDisplayText(randomText);
+        iteration++;
+      }, 40); // 40ms between flips
+    }, delay);
     
-    return () => clearInterval(interval);
-  }, [text, isReady]);
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
+  }, [text, isReady, delay]);
 
   return { displayText: displayText || text, isFlipping };
 }
 
 // A component that renders a string with split-flap animation on mount
-function SplitFlapText({ text, isReady }: { text: string; isReady: boolean }) {
-  const { displayText, isFlipping } = useSplitFlap(text, isReady);
+function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: boolean; delay?: number }) {
+  const { displayText, isFlipping } = useSplitFlap(text, isReady, delay);
   
   return (
     <>
@@ -81,7 +87,7 @@ function SplitFlapText({ text, isReady }: { text: string; isReady: boolean }) {
 }
 
 
-function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
+function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isReady: boolean; delay: number; onClick: () => void }) {
   const isUpcoming = isFutureEvent(event);
   
   // Determine Status/Remarks
@@ -108,15 +114,15 @@ function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
   }
 
   return (
-    <div className="board-row">
+    <div className="board-row" onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if(e.key === 'Enter') onClick(); }}>
       <div className="board-cell">
-        <SplitFlapText text={event.date} isReady={isReady} />
+        <SplitFlapText text={event.date} isReady={isReady} delay={delay} />
       </div>
       <div className="board-cell cell-event">
-        <SplitFlapText text={event.name} isReady={isReady} />
+        <SplitFlapText text={event.name} isReady={isReady} delay={delay} />
       </div>
       <div className="board-cell">
-        <SplitFlapText text={event.type} isReady={isReady} />
+        <SplitFlapText text={event.type} isReady={isReady} delay={delay} />
       </div>
       <div className="board-cell cell-status">
         {statusClass === 'status-register' && event.registrationUrl ? (
@@ -126,13 +132,14 @@ function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
             rel="noopener noreferrer"
             className="status-register"
             aria-label={`Register for ${event.name}`}
+            onClick={(e) => e.stopPropagation()}
           >
-            <SplitFlapText text="REGISTER" isReady={isReady} />
+            <SplitFlapText text="REGISTER" isReady={isReady} delay={delay} />
             <ArrowUpRight size={16} strokeWidth={2.5} style={{ marginLeft: '4px' }} />
           </a>
         ) : (
           <span className={statusClass}>
-            <SplitFlapText text={statusText} isReady={isReady} />
+            <SplitFlapText text={statusText} isReady={isReady} delay={delay} />
           </span>
         )}
         
@@ -142,6 +149,7 @@ function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
             className="gallery-link" 
             title="View Gallery"
             aria-label={`View gallery for ${event.name}`}
+            onClick={(e) => e.stopPropagation()}
           >
             <Camera size={18} />
           </Link>
@@ -151,10 +159,70 @@ function BoardRow({ event, isReady }: { event: EventItem; isReady: boolean }) {
   );
 }
 
+function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
+  const isUpcoming = isFutureEvent(event);
+
+  return (
+    <div className="event-overlay-backdrop" onClick={onClose}>
+      <div className="event-overlay-container" onClick={(e) => e.stopPropagation()}>
+        <button className="event-overlay-close" onClick={onClose} aria-label="Close details">
+          &times;
+        </button>
+        <div className="event-overlay-poster">
+          {event.imageUrl ? (
+            <img src={event.imageUrl} alt={event.name} />
+          ) : (
+            <div className="event-poster-placeholder">No Image Available</div>
+          )}
+        </div>
+        <div className="event-overlay-details">
+          <div className="event-overlay-header">
+            <span className="event-overlay-type">{event.type}</span>
+            <span className={`event-overlay-status ${isUpcoming ? 'status-upcoming' : 'status-completed'}`}>
+              {event.status?.toUpperCase() || (isUpcoming ? 'UPCOMING' : 'COMPLETED')}
+            </span>
+          </div>
+          <h2 className="event-overlay-title">{event.name}</h2>
+          <p className="event-overlay-date">{event.date}</p>
+          <div className="event-overlay-desc">
+            {event.description ? event.description : 'Join us for an exciting event filled with learning and fun!'}
+          </div>
+          
+          <div className="event-overlay-actions">
+            {isUpcoming && event.registrationUrl && (
+              <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-register-btn">
+                Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
+              </a>
+            )}
+            {event.galleryFolderId && (
+              <Link to={`/gallery#${event.id}`} className="event-overlay-gallery-btn" onClick={onClose}>
+                View Gallery <Camera size={18} />
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 export function EventsPage() {
   const { events, loading } = useEvents();
   const [isReady, setIsReady] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
 
   useEffect(() => {
     if (!loading) {
@@ -196,20 +264,12 @@ export function EventsPage() {
   const totalEventsCount = sortedEvents.length;
 
   return (
-    <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
-      <HeroBanner
-        title={
-          <>
-            THE&nbsp;
-            <span className="hero-heading-accent">EVENTS</span>
-          </>
-        }
-        subtitle="Explore workshops, hackathons, and tech sessions hosted by iTrax."
-        imageUrl={eventsHeaderImg}
-      />
-
+    <main style={{ flex: 1, position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - var(--nav-height))', justifyContent: 'center' }}>
       <section className="departure-board-section" aria-label="Events Departure Board">
         <div className="departure-board">
+          <h1 className="events-board-heading">
+            <SplitFlapText text="EVENTS" isReady={isReady} />
+          </h1>
           <div className="board-columns">
             <div className="board-col-header">DATE</div>
             <div className="board-col-header">EVENT</div>
@@ -230,8 +290,8 @@ export function EventsPage() {
             </div>
           ) : totalEventsCount > 0 ? (
             <div className="board-rows">
-              {sortedEvents.map((event) => (
-                <BoardRow key={event.id} event={event} isReady={isReady} />
+              {sortedEvents.map((event, i) => (
+                <BoardRow key={event.id} event={event} isReady={isReady} delay={i * 120} onClick={() => setSelectedEvent(event)} />
               ))}
             </div>
           ) : (
@@ -241,6 +301,11 @@ export function EventsPage() {
           )}
         </div>
       </section>
+      
+      {selectedEvent && createPortal(
+        <EventDetailOverlay event={selectedEvent} onClose={() => setSelectedEvent(null)} />,
+        document.body
+      )}
     </main>
   );
 }

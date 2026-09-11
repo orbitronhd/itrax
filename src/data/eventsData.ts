@@ -23,6 +23,7 @@ export const eventsData: EventItem[] = [
     name: 'Adaptathon',
     date: 'SEP 14, 2026',
     type: 'Competition',
+    description: 'Join the ultimate coding competition to adapt and overcome challenges.',
     status: 'upcoming',
     imageUrl: new URL('../assets/events/adaptathon.webp', import.meta.url).href
   },
@@ -31,6 +32,7 @@ export const eventsData: EventItem[] = [
     name: 'More Than Just A Final Year Project',
     date: 'JUL 17, 2026',
     type: 'Workshop',
+    description: 'A deep dive into building production-ready final year projects that stand out.',
     status: 'completed',
     imageUrl: new URL('../assets/events/finalyearproject.webp', import.meta.url).href
   },
@@ -39,6 +41,7 @@ export const eventsData: EventItem[] = [
     name: 'SWI{F}TF',
     date: 'MAR 13, 2026',
     type: 'Competition',
+    description: 'An exciting swift programming competition pushing limits.',
     status: 'completed',
     galleryFolderId: 'switf',
     imageUrl: new URL('../assets/events/swiftf.webp', import.meta.url).href
@@ -48,6 +51,7 @@ export const eventsData: EventItem[] = [
     name: 'ForumTech',
     date: 'FEB 13, 2026',
     type: 'Debate',
+    description: 'A tech-focused debate forum bringing bright minds together.',
     status: 'completed',
     galleryFolderId: 'forumtech',
     imageUrl: new URL('../assets/events/forumtech.webp', import.meta.url).href
@@ -57,16 +61,17 @@ export const eventsData: EventItem[] = [
     name: 'Git Started',
     date: 'FEB 06, 2026',
     type: 'Workshop',
+    description: 'Learn Git and version control from the ground up in this hands-on workshop.',
     status: 'completed',
     galleryFolderId: 'gitstarted',
     imageUrl: new URL('../assets/events/gitstarted.webp', import.meta.url).href
-
   },
   {
     id: 'c-tech-quiz-2026',
     name: 'C Tech Quiz',
     date: 'JAN 30, 2026',
     type: 'Competition',
+    description: 'Test your knowledge of the C programming language in this rapid-fire quiz.',
     status: 'completed',
     galleryFolderId: 'ctechquiz',
     imageUrl: new URL('../assets/events/ctechquiz.webp', import.meta.url).href

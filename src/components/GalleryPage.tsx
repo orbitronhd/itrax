@@ -1,8 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { HeroBanner } from './HeroBanner';
 import { useGallery } from '../hooks/useGallery';
-import { CMS_GALLERY_IMAGE } from '../constants/cmsImages';
 import type { GalleryFolder, GalleryItem } from '../types/gallery';
 import './css/GalleryPage.css';
 
@@ -27,18 +25,11 @@ export function GalleryPage() {
 
   return (
     <main style={{ flex: 1, position: 'relative' }}>
-      <HeroBanner 
-        title={
-          <>
-            THE&nbsp;
-            <span className="hero-heading-accent">GALLERY</span>
-          </>
-        } 
-        subtitle="A look back at our previous events, workshops, and competitions."
-        imageUrl={CMS_GALLERY_IMAGE}
-      />
-
-      <section className="gallery-section" aria-label="Event Highlights">
+      <section className="gallery-section" aria-label="Event Highlights" style={{ paddingTop: 'var(--space-2xl)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'var(--space-3xl)', width: '100%' }}>
+          <h1 style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)', color: 'var(--text)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)', fontWeight: 800 }}>Event Highlights</h1>
+          <p style={{ color: 'var(--accent-bright)', fontSize: '1rem', fontFamily: 'var(--font-body)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Memories from our past events</p>
+        </div>
         <div className="gallery-year-marker">
           <h2>2026</h2>
           <span className="accent-line"></span>

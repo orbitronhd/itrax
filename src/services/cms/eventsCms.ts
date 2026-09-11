@@ -55,6 +55,7 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         const imageUrl = String(cells[4]?.v || '').trim();
         const registrationUrl = String(cells[5]?.v || '').trim();
         const statusRaw = String(cells[6]?.v || '').trim().toLowerCase();
+        const description = String(cells[7]?.v || '').trim();
         
         let status: EventItem['status'];
         if (statusRaw === 'upcoming' || statusRaw === 'ongoing' || statusRaw === 'completed') {
@@ -71,6 +72,7 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         if (imageUrl) event.imageUrl = imageUrl;
         if (registrationUrl) event.registrationUrl = registrationUrl;
         if (status) event.status = status;
+        if (description) event.description = description;
 
         events.push(event);
       });
