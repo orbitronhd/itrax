@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowUpRight, Camera } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -290,7 +290,7 @@ export function EventsPage() {
             </div>
           ) : totalEventsCount > 0 ? (
             <div className="board-rows">
-              {sortedEvents.map((event, i) => (
+              {sortedEvents.map((event: EventItem, i: number) => (
                 <BoardRow key={event.id} event={event} isReady={isReady} delay={i * 120} onClick={() => setSelectedEvent(event)} />
               ))}
             </div>
