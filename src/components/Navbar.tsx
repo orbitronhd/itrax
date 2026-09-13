@@ -7,7 +7,6 @@ const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Execom', href: '/execom' },
   { label: 'Events', href: '/events' },
-  { label: 'Gallery', href: '/gallery' },
 ];
 
 export function Navbar() {

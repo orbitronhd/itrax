@@ -8,7 +8,7 @@ import { FloatingParticles } from './components/FloatingParticles';
 import { Footer } from './components/Footer';
 const HomePage = lazy(() => import('./components/HomePage').then(module => ({ default: module.HomePage })));
 const ExecomPage = lazy(() => import('./components/ExecomPage').then(module => ({ default: module.ExecomPage })));
-const GalleryPage = lazy(() => import('./components/GalleryPage').then(module => ({ default: module.GalleryPage })));
+
 const EventsPage = lazy(() => import('./components/EventsPage').then(module => ({ default: module.EventsPage })));
 
 function ScrollToTop() {
@@ -45,7 +45,7 @@ function PageTitleManager() {
       case '/events':
         document.title = 'Events - iTrax';
         break;
-      case '/gallery':
+
         document.title = 'Gallery - iTrax';
         break;
       default:
@@ -71,7 +71,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/execom" element={<ExecomPage />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
+
         </Routes>
       </Suspense>
 

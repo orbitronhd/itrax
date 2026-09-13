@@ -142,18 +142,6 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
             <SplitFlapText text={statusText} isReady={isReady} delay={delay} />
           </span>
         )}
-        
-        {event.galleryFolderId && (
-          <Link 
-            to={`/gallery#${event.id}`} 
-            className="gallery-link" 
-            title="View Gallery"
-            aria-label={`View gallery for ${event.name}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Camera size={18} />
-          </Link>
-        )}
       </div>
     </div>
   );
@@ -205,11 +193,6 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
               <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-register-btn">
                 Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
               </a>
-            )}
-            {event.galleryFolderId && (
-              <Link to={`/gallery#${event.id}`} className="event-overlay-gallery-btn" onClick={onClose}>
-                View Gallery <Camera size={18} />
-              </Link>
             )}
           </div>
         </div>

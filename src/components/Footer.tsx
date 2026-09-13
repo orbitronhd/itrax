@@ -21,9 +21,6 @@ export function Footer(): React.JSX.Element {
             <Link to="/events" className="footer-nav-link">
               Events
             </Link>
-            <Link to="/gallery" className="footer-nav-link">
-              Gallery
-            </Link>
           </nav>
         </div>
         <img src={itraxLogo} alt="iTrax Logo" className="footer-logo" />

@@ -111,13 +111,8 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
                 </a>
               )}
               
-              {!loading && nextEvent?.galleryFolderId && (
-                <Link to={`/gallery#${nextEvent.id}`} className="featured-gallery-btn">
-                  View Gallery <Camera size={18} />
-                </Link>
-              )}
-              
-              {!loading && (!nextEvent?.registrationUrl || !isUpcoming) && !nextEvent?.galleryFolderId && (
+
+              {!loading && (!nextEvent?.registrationUrl || !isUpcoming) && (
                 <Link to="/events" className="featured-gallery-btn">
                   View All Events
                 </Link>

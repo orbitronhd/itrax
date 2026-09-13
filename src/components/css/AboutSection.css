@@ -79,7 +79,7 @@
 /* ── Polaroid Grid ─────────────────────────────────────────── */
 .polaroid-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 4rem; /* Lots of space for the massive cards */
   justify-items: center;
   padding: 2rem 0 1rem;

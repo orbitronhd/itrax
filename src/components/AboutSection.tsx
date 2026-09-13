@@ -12,13 +12,7 @@ interface PolaroidItem {
 }
 
 const polaroids: PolaroidItem[] = [
-  {
-    label: 'Gallery',
-    href: '/gallery',
-    rotate: '-3deg',
-    id: 'polaroid-gallery',
-    imgSrc: CMS_GALLERY_IMAGE,
-  },
+
   {
     label: 'Meet the Team',
     href: '/execom',
