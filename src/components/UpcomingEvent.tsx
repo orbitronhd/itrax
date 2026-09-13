@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Camera } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
@@ -32,17 +31,16 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
 
   // Fade IN from 1.5vh to 2.5vh (crossfading from HeroBanner)
   const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 1.5 * vh) / (1 * vh)));
-  
+
   // Fade OUT from 3.5vh to 4.2vh
   const fadeOutProgress = Math.max(0, Math.min(1, (scrollY - 3.5 * vh) / (0.7 * vh)));
-  
+
   const opacity = fadeInProgress - fadeOutProgress;
-  const blur = (1 - fadeInProgress) * 20;
   const translateY = (1 - fadeInProgress) * 40 - (fadeOutProgress * 40);
 
   return (
-    <section 
-      className="featured-event-section" 
+    <section
+      className="featured-event-section"
       aria-label="Featured Event"
       style={{
         opacity: opacity,
@@ -80,37 +78,37 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
                 </span>
               )}
             </div>
-            
+
             <h2 className="featured-event-title">
               {loading ? 'Loading Event...' : nextEvent ? nextEvent.name : 'Coming Soon'}
             </h2>
-            
+
             <p className="featured-event-date">
               {!loading && nextEvent?.date}
             </p>
-            
+
             <div className="featured-event-desc">
-              {loading 
+              {loading
                 ? "Fetching the latest event details..."
-                : nextEvent?.description 
-                ? nextEvent.description 
-                : nextEvent
-                ? `Join us for ${nextEvent.name}, an exciting ${nextEvent.type.toLowerCase()} happening on ${nextEvent.date}. Connect, learn, and build with the iTrax community!`
-                : "Stay tuned for upcoming events and workshops hosted by iTrax."}
+                : nextEvent?.description
+                  ? nextEvent.description
+                  : nextEvent
+                    ? `Join us for ${nextEvent.name}, an exciting ${nextEvent.type.toLowerCase()} happening on ${nextEvent.date}. Connect, learn, and build with the iTrax community!`
+                    : "Stay tuned for upcoming events and workshops hosted by iTrax."}
             </div>
-            
+
             <div className="featured-event-actions">
               {isUpcoming && nextEvent?.registrationUrl && !loading && (
-                <a 
-                  href={nextEvent.registrationUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={nextEvent.registrationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="featured-register-btn"
                 >
                   Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
                 </a>
               )}
-              
+
 
               {!loading && (!nextEvent?.registrationUrl || !isUpcoming) && (
                 <Link to="/events" className="featured-gallery-btn">
