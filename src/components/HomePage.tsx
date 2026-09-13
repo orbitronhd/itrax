@@ -42,13 +42,15 @@ export function HomePage() {
         position: 'relative',
         width: '100vw',
         marginLeft: 'calc(50% - 50vw)',
-        zIndex: 10
+        zIndex: 10,
+        pointerEvents: 'none'
       }}>
         <div style={{ 
           position: 'sticky', 
           top: 0, 
           height: '100vh', 
-          overflow: 'hidden'
+          overflow: 'hidden',
+          pointerEvents: 'none'
         }}>
           <div style={{
             position: 'absolute',
