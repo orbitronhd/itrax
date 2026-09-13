@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import eventsImage from '../assets/header/events.webp';
-import { CMS_GALLERY_IMAGE, CMS_TEAM_IMAGE } from '../constants/cmsImages';
+import { CMS_TEAM_IMAGE } from '../constants/cmsImages';
 import './css/AboutSection.css';
 
 interface PolaroidItem {
@@ -12,13 +12,7 @@ interface PolaroidItem {
 }
 
 const polaroids: PolaroidItem[] = [
-  {
-    label: 'Gallery',
-    href: '/gallery',
-    rotate: '-3deg',
-    id: 'polaroid-gallery',
-    imgSrc: CMS_GALLERY_IMAGE,
-  },
+
   {
     label: 'Meet the Team',
     href: '/execom',

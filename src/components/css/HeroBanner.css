@@ -1,219 +1,127 @@
 /* ============================================================
-   HeroBanner — full-bleed two-column hero
-   Left: image placeholder  →  fades  →  Right: text content
+   HeroBanner — Cinematic Scroll-Driven Experience
    ============================================================ */
 
-/* Break out of #root's 1280px constraint */
 .hero-banner {
-  position: relative;
-  /* Negative margin trick: counteract the parent padding/margin */
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  min-height: 50vh;
-  overflow: hidden;
-
-  background: var(--bg-secondary);
-  z-index: 1;
-}
-
-/* ── Left column ─────────────────────────────────────────── */
-.hero-image-side {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  z-index: 0;
+  background: transparent; 
+  z-index: 1;
 }
 
-.hero-image {
+/* (Fading handled in-line) */
+
+/* ── Background ─────────────────────────────────────────── */
+.hero-background {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: var(--bg-primary);
+}
+
+.hero-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
-.hero-image-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-
-  background: linear-gradient(
-    135deg,
-    rgba(30, 58, 138, 0.25) 0%,
-    rgba(8, 16, 40, 0.6) 100%
-  );
-
-  /* Subtle grid pattern */
-  background-image:
-    linear-gradient(135deg, rgba(30, 58, 138, 0.18) 0%, rgba(8, 16, 40, 0.55) 100%),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 39px,
-      rgba(56, 189, 248, 0.04) 39px,
-      rgba(56, 189, 248, 0.04) 40px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 39px,
-      rgba(56, 189, 248, 0.04) 39px,
-      rgba(56, 189, 248, 0.04) 40px
-    );
-
-  color: var(--text-dim);
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.placeholder-icon {
-  width: 80px;
-  height: 80px;
-  padding: 1rem;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: var(--radius-lg);
-  background: rgba(56, 189, 248, 0.05);
-  color: rgba(56, 189, 248, 0.5);
-  backdrop-filter: blur(4px);
-}
-
-.placeholder-icon svg {
+.hero-placeholder {
   width: 100%;
   height: 100%;
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(8, 16, 40, 0.6) 100%);
 }
 
-.placeholder-label {
-  color: rgba(148, 163, 184, 0.6);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-}
-
-/* ── Horizontal fade overlay ──────────────────────────────── */
-/* Sits on top of the image, fades from transparent (left) to --bg-secondary (right) */
-.hero-fade-overlay {
+.hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  pointer-events: none;
   background: linear-gradient(
-    to right,
-    rgba(8, 16, 40, 0) 0%,
-    rgba(8, 16, 40, 0) 25%,
-    rgba(8, 16, 40, 0.6) 50%,
-    rgba(8, 16, 40, 0.85) 100%
+    to bottom,
+    rgba(3, 7, 18, 0.2) 0%,
+    rgba(3, 7, 18, 0.6) 60%,
+    var(--bg-primary) 100%
   );
 }
 
-/* ── Right column ─────────────────────────────────────────── */
-.hero-text-side {
+/* ── Content ────────────────────────────────────────────── */
+.hero-content {
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(2rem, 5vw, 5rem) clamp(2rem, 4vw, 4.5rem);
-  text-align: left;
-  min-height: 50vh;
-}
-
-/* Eyebrow */
-.hero-eyebrow {
-  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-bright);
-  margin-bottom: 1.25rem;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
 }
 
-.eyebrow-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-bright);
-  box-shadow: 0 0 8px var(--accent-bright);
-  animation: hero-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes hero-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.7); }
-}
-
-/* Heading */
-.hero-heading {
-  font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 4.5vw, 4.8rem);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  margin-bottom: 1rem;
-}
-
-.hero-heading:last-child {
-  margin-bottom: 0;
-}
-
-.hero-heading-accent {
-  background: linear-gradient(120deg, var(--accent-bright) 0%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Subheading */
-.hero-subheading {
-  font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.3vw, 1.2rem);
-  font-weight: 400;
-  line-height: 1.7;
-  color: var(--text-muted);
-  max-width: 46ch;
-  margin-bottom: 0;
-}
-
-/* CTA buttons */
-.hero-actions {
+.hero-text-container {
+  position: relative;
+  height: 120px; /* fixed height to avoid layout shift */
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.hero-text {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  position: absolute;
+  width: 100%;
+}
+
+.hero-blue {
+  color: var(--accent-bright);
+}
+
+/* Sequential Letter Animation */
+.hero-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-char-in 0.6s var(--ease-out) forwards;
+}
+
+@keyframes hero-char-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Actions ────────────────────────────────────────────── */
+.hero-actions {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .hero-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1.75rem;
+  gap: 0.75rem;
+  padding: 1rem 2.25rem;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
   border: none;
   border-radius: var(--radius-md);
-  cursor: none;
+  cursor: pointer; /* Change to none if using custom cursor globally */
   transition:
     transform 0.25s var(--ease-out),
     box-shadow 0.25s var(--ease-out),
@@ -222,16 +130,13 @@
 }
 
 .hero-btn svg {
-  width: 18px;
-  height: 18px;
   transition: transform 0.25s var(--ease-out);
 }
 
 .hero-btn:hover svg {
-  transform: translateX(4px);
+  transform: translateY(4px);
 }
 
-/* Primary */
 .hero-btn--primary {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
   color: #fff;
@@ -243,92 +148,23 @@
   box-shadow: 0 8px 32px rgba(37, 99, 235, 0.55);
 }
 
-/* Secondary */
-.hero-btn--secondary {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow: none;
-}
-
-.hero-btn--secondary:hover {
-  background: rgba(56, 189, 248, 0.06);
-  border-color: rgba(56, 189, 248, 0.35);
-  color: var(--text);
-  transform: translateY(-2px);
-}
-
-/* Stat strip */
-.hero-stats {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.hero-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.hero-stat-value {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1;
-}
-
-.hero-stat-label {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .hero-banner {
-    flex-direction: column;
-    justify-content: flex-end;
+  .hero-text-container {
+    height: 160px;
   }
-
-  .hero-image-side {
-    position: absolute;
-    height: 100%;
-    width: 100%;
+  
+  .hero-text {
+    font-size: clamp(2rem, 8vw, 3.5rem);
   }
+}
 
-  .hero-fade-overlay {
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 25%,
-      rgba(8, 16, 40, 0.75) 50%,
-      rgba(8, 16, 40, 0.95) 100%
-    );
+@media (max-width: 480px) {
+  .hero-text-container {
+    height: 120px;
   }
-
-  .hero-text-side {
-    max-width: 100%;
-    min-height: auto;
-    padding: 4rem 1.5rem 3rem;
-    text-align: center;
-    align-items: center;
-  }
-
-  .hero-subheading {
-    max-width: 100%;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-stats {
-    justify-content: center;
+  
+  .hero-text {
+    font-size: 2.2rem;
   }
 }

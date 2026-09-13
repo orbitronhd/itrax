@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight, Camera } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import './css/EventsPage.css';
@@ -35,15 +34,15 @@ function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
 
   useEffect(() => {
     if (!isReady || !text) return;
-    
+
     let interval: ReturnType<typeof setInterval>;
-    
+
     const timeout = setTimeout(() => {
       setIsFlipping(true);
       let iteration = 0;
       const maxIterations = 15;
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ';
-      
+
       interval = setInterval(() => {
         if (iteration >= maxIterations) {
           clearInterval(interval);
@@ -51,17 +50,17 @@ function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
           setIsFlipping(false);
           return;
         }
-        
+
         const randomText = text.split('').map((char) => {
           if (char === ' ' && Math.random() > 0.5) return ' ';
           return chars[Math.floor(Math.random() * chars.length)];
         }).join('');
-        
+
         setDisplayText(randomText);
         iteration++;
       }, 40); // 40ms between flips
     }, delay);
-    
+
     return () => {
       clearTimeout(timeout);
       if (interval) clearInterval(interval);
@@ -74,7 +73,7 @@ function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
 // A component that renders a string with split-flap animation on mount
 function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: boolean; delay?: number }) {
   const { displayText, isFlipping } = useSplitFlap(text, isReady, delay);
-  
+
   return (
     <>
       {displayText.split('').map((char, i) => (
@@ -89,11 +88,11 @@ function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: bo
 
 function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isReady: boolean; delay: number; onClick: () => void }) {
   const isUpcoming = isFutureEvent(event);
-  
+
   // Determine Status/Remarks
   let statusClass = '';
   let statusText = '';
-  
+
   const isTBD = event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH');
 
   if (event.status === 'ongoing') {
@@ -114,7 +113,7 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
   }
 
   return (
-    <div className="board-row" onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if(e.key === 'Enter') onClick(); }}>
+    <div className="board-row" onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}>
       <div className="board-cell">
         <SplitFlapText text={event.date} isReady={isReady} delay={delay} />
       </div>
@@ -141,18 +140,6 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
           <span className={statusClass}>
             <SplitFlapText text={statusText} isReady={isReady} delay={delay} />
           </span>
-        )}
-        
-        {event.galleryFolderId && (
-          <Link 
-            to={`/gallery#${event.id}`} 
-            className="gallery-link" 
-            title="View Gallery"
-            aria-label={`View gallery for ${event.name}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Camera size={18} />
-          </Link>
         )}
       </div>
     </div>
@@ -199,17 +186,12 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
           <div className="event-overlay-desc">
             {event.description ? event.description : 'Join us for an exciting event filled with learning and fun!'}
           </div>
-          
+
           <div className="event-overlay-actions">
             {isUpcoming && event.registrationUrl && (
               <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-register-btn">
                 Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
               </a>
-            )}
-            {event.galleryFolderId && (
-              <Link to={`/gallery#${event.id}`} className="event-overlay-gallery-btn" onClick={onClose}>
-                View Gallery <Camera size={18} />
-              </Link>
             )}
           </div>
         </div>
@@ -257,7 +239,7 @@ export function EventsPage() {
 
     // Sort descending by timestamp
     processed.sort((a, b) => b.timestamp - a.timestamp);
-    
+
     return processed.map((item) => item.event);
   }, [events]);
 
@@ -276,7 +258,7 @@ export function EventsPage() {
             <div className="board-col-header">TYPE</div>
             <div className="board-col-header">STATUS</div>
           </div>
-          
+
           {loading ? (
             <div className="board-rows skeleton-board">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -301,7 +283,7 @@ export function EventsPage() {
           )}
         </div>
       </section>
-      
+
       {selectedEvent && createPortal(
         <EventDetailOverlay event={selectedEvent} onClose={() => setSelectedEvent(null)} />,
         document.body

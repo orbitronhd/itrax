@@ -62,12 +62,10 @@
   padding: 0;
   white-space: nowrap;
   
-  /* Horizontal expansion defaults */
-  max-width: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.5s var(--ease-spring);
-  pointer-events: none;
+  /* Visible by default on desktop */
+  max-width: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .nav-links a {
@@ -116,7 +114,7 @@
 
 /* Hamburger */
 .hamburger {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 5px;
   cursor: none;
@@ -153,6 +151,10 @@
 
   .logo-img {
     height: 48px;
+  }
+
+  .hamburger {
+    display: flex;
   }
 
   /* Reset the desktop hover expansion defaults */
