@@ -26,10 +26,10 @@ export function Footer(): React.JSX.Element {
             </Link>
           </nav>
         </div>
+        <img src={itraxLogo} alt="iTrax Logo" className="footer-logo" />
       </div>
 
       <div className="footer-bottom">
-        <img src={itraxLogo} alt="iTrax Logo" className="footer-logo" />
         <p className="footer-copyright">
           &copy; iTrax. All rights reserved.
         </p>
