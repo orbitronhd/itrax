@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
 import './css/HeroBanner.css';
 
@@ -8,12 +8,52 @@ export interface HeroBannerProps {
   vh: number;
 }
 
+function GlitchWord({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [displayText, setDisplayText] = useState('');
+  
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+    let interval: ReturnType<typeof setInterval>;
+
+    timeout = setTimeout(() => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+      let iteration = 0;
+      
+      interval = setInterval(() => {
+        setDisplayText(() => {
+          return text
+            .split('')
+            .map((letter, index) => {
+              if (index < iteration) {
+                return text[index];
+              }
+              if (letter === ' ' || letter === '.') return letter;
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join('');
+        });
+
+        if (iteration >= text.length) {
+          clearInterval(interval);
+        }
+        
+        iteration += 1 / 4; 
+      }, 50);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [text, delay]);
+
+  return <span>{displayText || ' '}</span>;
+}
+
 export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isVideo = imageUrl?.match(/\.(mp4|webm|ogg)$/i);
 
-  const innovateText = "INNOVATE. BUILD. LEAD.";
-  
   // Calculate animation values based on scroll offset (relative to vh)
   // 0 - 0.5vh: Text 1 fades out
   const text1Progress = Math.max(0, Math.min(1, scrollY / (0.5 * vh)));
@@ -74,7 +114,9 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
               pointerEvents: text1Opacity > 0 ? 'auto' : 'none'
             }}
           >
-            {innovateText}
+            <GlitchWord text="INNOVATE." delay={0} />{' '}
+            <GlitchWord text="BUILD." delay={800} />{' '}
+            <GlitchWord text="LEAD." delay={1500} />
           </h1>
           <h1 
             className="hero-text hero-text-welcome"
