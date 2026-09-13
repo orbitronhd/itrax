@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight, Camera } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import './css/EventsPage.css';

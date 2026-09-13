@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import eventsImage from '../assets/header/events.webp';
-import { CMS_GALLERY_IMAGE, CMS_TEAM_IMAGE } from '../constants/cmsImages';
+import { CMS_TEAM_IMAGE } from '../constants/cmsImages';
 import './css/AboutSection.css';
 
 interface PolaroidItem {

@@ -75,7 +75,6 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   // Entire Hero fade out for crossfade into UpcomingEvent (1.5vh - 2.5vh)
   const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 1.5 * vh) / (1 * vh)));
   const heroOpacity = 1 - heroFadeProgress;
-  const heroBlur = heroFadeProgress * 20;
 
   return (
     <section 
