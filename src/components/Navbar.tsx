@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import itraxLogo from '../assets/itrax-logo-small.png';
 import './css/Navbar.css';
@@ -13,10 +13,25 @@ const navLinks = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const THRESHOLD = 5;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60);
+      const currentY = window.scrollY;
+
+      setIsScrolled(currentY > 60);
+
+      if (Math.abs(currentY - lastScrollY.current) >= THRESHOLD) {
+        if (currentY > lastScrollY.current && currentY > 80) {
+          setIsHidden(true);
+        } else if (currentY < lastScrollY.current) {
+          setIsHidden(false);
+        }
+        lastScrollY.current = currentY;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -29,7 +44,7 @@ export function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
+    <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''} ${isHidden && !isOpen ? 'navbar--hidden' : ''}`}>
       {/* Brand Logo */}
       <Link to="/" className="logo" onClick={closeMenu}>
         <img src={itraxLogo} alt="iTrax Logo" className="logo-img" />
