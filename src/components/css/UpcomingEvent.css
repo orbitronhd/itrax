@@ -1,224 +1,227 @@
 /* ============================================================
-   UpcomingEvent — transparent background, 50vh
+   Featured Event — Fullscreen overlay style layout
    ============================================================ */
 
-.upcoming-event-section {
-  position: relative;
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-  min-height: 50vh;
+.featured-event-section {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  /* NO solid background so the dot grid from body shows through */
-  z-index: 1;
-  overflow: hidden; /* Clips the hanging strings so they don't enter the hero banner */
+  z-index: 2;
+  overflow: hidden;
 }
 
-.upcoming-event-container {
+
+
+.featured-event-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.featured-event-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(24px) brightness(0.6);
+  transform: scale(1.1); /* Prevent blurred edges */
+}
+
+.featured-event-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(3, 7, 18, 0.75);
+  z-index: 1;
+}
+
+.featured-event-content {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 1100px;
+  background: rgba(8, 16, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+.featured-event-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-}
-
-/* ── Poster Frame ── */
-.event-poster-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.polaroid-hanger {
-  position: relative;
-  display: inline-block;
-  padding-top: 52px; /* Space for strings and clips above the polaroid, leaving 8px overlap */
-}
-
-.event-polaroid {
-  --rotate: 0deg; /* Hanging straight down */
-  background: #f8fafc;
-  padding: 1.25rem 1.25rem 4rem; /* Thick bottom border for polaroid label */
-  border-radius: 4px;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 20px 40px rgba(0, 0, 0, 0.3); /* Softer, wider drop shadow */
-  width: 100%;
-  max-width: 360px;
-  position: relative;
-  transform: rotate(var(--rotate));
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  will-change: transform;
-}
-
-.event-polaroid-photo {
-  width: 100%;
-  aspect-ratio: 10 / 11;
-  background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.95) 0%,
-    rgba(2, 6, 23, 1) 100%
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
+  grid-template-columns: 40% 60%;
   overflow: hidden;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.featured-event-poster {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
 
-/* Shine effect on the photo */
-.event-polaroid-photo::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
+.featured-event-poster img {
+  width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 255, 255, 0.04),
-    transparent
-  );
-  transform: skewX(-25deg);
-  animation: polaroidShine 6s infinite;
+  object-fit: cover;
+  object-position: center;
 }
 
-@keyframes polaroidShine {
-  0% { left: -100%; }
-  20% { left: 200%; }
-  100% { left: 200%; }
+.event-poster-skeleton {
+  width: 100%;
+  height: 100%;
+  background-color: #1e293b;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.poster-label {
-  color: rgba(255,255,255,0.2);
+.event-poster-placeholder {
+  color: #666;
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-weight: 600;
 }
 
-/* ── Hanger & Clips ── */
-.clip-assembly {
-  position: absolute;
-  top: 0; /* Align to the top of the hanger */
+.featured-event-details {
+  padding: 3rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.featured-event-header {
+  display: flex;
+  gap: 1rem;
   align-items: center;
-  z-index: 10;
-  width: 48px;
-  height: 60px;
 }
 
-.clip-left {
-  left: 20%;
+.featured-event-type {
+  font-family: var(--font-dot-matrix);
+  color: #f5c542;
+  letter-spacing: 0.1em;
+  font-size: 1.1rem;
+  font-weight: 900;
 }
 
-.clip-right {
-  right: 20%;
-}
-
-.clip-string {
-  width: 1.5px;
-  background: #ffffff;
-  position: absolute;
-  top: -120vh; /* Extremely long to go offscreen upwards, clipped by overflow:hidden on section */
-  height: calc(120vh + 8px); /* End exactly 8px down from top, touching the SVG loop */
-  z-index: -1; /* Behind the clip SVG */
-}
-
-.binder-clip {
-  width: 48px;
-  height: 60px;
-  /* transform removed; positioning is handled by clip-assembly */
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
-}
-
-.event-polaroid-label {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 1.25rem;
-  width: calc(100% - 2.5rem);
-  text-align: left;
-  font-family: 'Oregano', cursive;
-  font-size: 1.65rem;
+.featured-event-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
-  color: #334155;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* ── Event Details ── */
-.event-details {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-items: flex-start;
+.featured-event-status.status-upcoming {
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
-.event-title {
+.featured-event-status.status-completed {
+  color: #64748b;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.featured-event-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 800;
-  color: var(--text);
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0;
 }
 
-.event-description {
+.featured-event-date {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  color: var(--accent-bright);
+}
+
+.featured-event-desc {
   font-family: var(--font-body);
   font-size: 1.1rem;
+  line-height: 1.6;
   color: var(--text-muted);
-  line-height: 1.7;
   max-width: 90%;
 }
 
-.upcoming-register-btn {
+.featured-event-actions {
   margin-top: 1rem;
-  padding: 0.85rem 2.25rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 600;
-  background: transparent;
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.45);
-  border-radius: var(--radius-md);
-  cursor: none;
-  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.12);
-  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), background 0.25s var(--ease-out), color 0.25s var(--ease-out);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.upcoming-register-btn:hover,
-.upcoming-register-btn:focus-visible {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(56, 189, 248, 0.9) 100%);
+.featured-register-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
   color: #fff;
-  border-color: #38bdf8;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: transform 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.featured-register-btn:hover {
+  background: var(--accent-bright);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.4);
+  color: #111;
+}
+
+.featured-gallery-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.featured-gallery-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .upcoming-event-container {
+  .featured-event-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    text-align: center;
   }
   
-  .event-details {
-    align-items: center;
-    text-align: center;
+  .featured-event-poster {
+    min-height: 250px;
   }
   
-  .event-description {
+  .featured-event-details {
+    padding: 2rem;
+  }
+  
+  .featured-event-desc {
     max-width: 100%;
   }
 }

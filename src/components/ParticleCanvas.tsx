@@ -79,8 +79,11 @@ export function ParticleCanvas() {
       ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
       ctx.fill();
 
+      const scrollY = window.scrollY;
+
       // 2. Draw lines individually only if within squared distance
-      if (checkMouse) {
+      // Performance optimization: only draw lines if scrolled past the hero + upcoming event
+      if (checkMouse && scrollY > height * 1.2) {
         particlesRef.current.forEach((p) => {
           const dx = mx - p.x;
           const dy = my - p.y;
@@ -98,7 +101,6 @@ export function ParticleCanvas() {
       }
 
       // 3. Draw Grid Parallax Overlay (replaces CSS mask-image)
-      const scrollY = window.scrollY;
       const offsetY = (scrollY * 0.05) % 60;
       
       const cx = width / 2;
