@@ -73,9 +73,9 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
 
         </Routes>
+        <Footer />
       </Suspense>
 
-      <Footer />
       <Analytics />
     </>
   );

@@ -9,12 +9,15 @@ export function CustomCursor() {
   const mouse = useRef({ x: 0, y: 0 });
   const requestRef = useRef<number>(0);
 
+  // Optimization: Do not render or calculate cursor on touch devices
+  const isTouchDevice = typeof window !== 'undefined' && (
+    window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0
+  );
+
   useEffect(() => {
-    // Optimization: Do not run cursor animation logic on touch devices
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (isTouchDevice) {
-      return;
-    }
+    if (isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
@@ -62,6 +65,10 @@ export function CustomCursor() {
       cancelAnimationFrame(requestRef.current);
     };
   }, []);
+
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <>
