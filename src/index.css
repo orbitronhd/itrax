@@ -13,13 +13,11 @@
 html {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  overscroll-behavior: none;
 }
 
 body {
   overflow-x: hidden !important;
   scrollbar-width: none !important;
-  overscroll-behavior: none;
 }
 
 *,
