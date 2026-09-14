@@ -55,14 +55,14 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   const isVideo = imageUrl?.match(/\.(mp4|webm|ogg)$/i);
 
   // Calculate animation values based on scroll offset (relative to vh)
-  // 0 - 0.5vh: Text 1 fades out
-  const text1Progress = Math.max(0, Math.min(1, scrollY / (0.5 * vh)));
+  // 0 - 0.1vh: Text 1 fades out
+  const text1Progress = Math.max(0, Math.min(1, scrollY / (0.1 * vh)));
   const text1Opacity = 1 - text1Progress;
   const text1Blur = text1Progress * 12;
   const text1TranslateY = text1Progress * 20;
 
-  // 0.4vh - 1.0vh: Text 2 fades in
-  const text2Progress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.6 * vh)));
+  // 0.05vh - 0.2vh: Text 2 fades in
+  const text2Progress = Math.max(0, Math.min(1, (scrollY - 0.05 * vh) / (0.15 * vh)));
   const text2Opacity = text2Progress;
   const text2Blur = (1 - text2Progress) * 12;
   const text2TranslateY = (1 - text2Progress) * -20;
@@ -140,7 +140,7 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
         >
           <button 
             onClick={() => {
-              document.getElementById('events-section')?.scrollIntoView({ behavior: 'smooth' });
+              window.scrollTo({ top: window.innerHeight * 2.5, behavior: 'smooth' });
             }}
             className="hero-btn hero-btn--primary"
           >

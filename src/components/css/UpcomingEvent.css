@@ -225,3 +225,36 @@
     max-width: 100%;
   }
 }
+
+@media (max-width: 600px) {
+  .featured-event-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .featured-event-poster {
+    min-height: 200px;
+    max-height: 250px;
+  }
+  
+  .featured-event-details {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .featured-event-title {
+    font-size: 1.75rem;
+  }
+
+  .featured-event-date {
+    font-size: 1rem;
+  }
+
+  .featured-event-desc {
+    font-size: 0.95rem;
+  }
+
+  .featured-register-btn, .featured-gallery-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}

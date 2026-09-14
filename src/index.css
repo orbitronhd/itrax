@@ -13,13 +13,11 @@
 html {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  overscroll-behavior: none;
 }
 
 body {
   overflow-x: hidden !important;
   scrollbar-width: none !important;
-  overscroll-behavior: none;
 }
 
 *,
@@ -103,7 +101,6 @@ body {
   line-height: 1.7;
   min-height: 100vh;
   max-width: 100vw;
-  cursor: none;
 }
 
 #root {
@@ -141,17 +138,16 @@ a {
   color: var(--accent-bright);
   text-decoration: none;
   transition: color 0.3s var(--ease-out);
-  cursor: none;
 }
 
 a:hover {
   color: #7dd3fc;
 }
 
-button,
-.btn,
-.social-links a {
-  cursor: none;
+@media (hover: hover) and (pointer: fine) {
+  body, a, button, .btn, .social-links a, .hamburger {
+    cursor: none;
+  }
 }
 
 img {
