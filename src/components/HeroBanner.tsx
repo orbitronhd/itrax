@@ -67,13 +67,13 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   const text2Blur = (1 - text2Progress) * 12;
   const text2TranslateY = (1 - text2Progress) * -20;
 
-  // Background slow blur (0 - 1.5vh)
-  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.5 * vh)));
+  // Background slow blur (0 - 1.2vh)
+  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.2 * vh)));
   const bgBlur = bgProgress * 12;
   const bgBrightness = 1 - (bgProgress * 0.4); 
 
-  // Entire Hero fade out for crossfade into UpcomingEvent (1.5vh - 2.5vh)
-  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 1.5 * vh) / (1 * vh)));
+  // Entire Hero fade out for crossfade into UpcomingEvent (0.4vh - 1.2vh)
+  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
   const heroOpacity = 1 - heroFadeProgress;
 
   return (
@@ -140,7 +140,7 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
         >
           <button 
             onClick={() => {
-              window.scrollTo({ top: window.innerHeight * 2.5, behavior: 'smooth' });
+              window.scrollTo({ top: window.innerHeight * 1.2, behavior: 'smooth' });
             }}
             className="hero-btn hero-btn--primary"
           >

@@ -30,15 +30,15 @@ export function HomePage() {
     };
   }, []);
 
-  // Fade out sticky container from 4.2vh to 5vh to reveal Rest of Page
-  const stickyFadeOut = Math.max(0, Math.min(1, (scrollY - 4.2 * vh) / (0.8 * vh)));
+  // Fade out sticky container from 2.2vh to 2.8vh to reveal Rest of Page
+  const stickyFadeOut = Math.max(0, Math.min(1, (scrollY - 2.2 * vh) / (0.6 * vh)));
   const stickyOpacity = 1 - stickyFadeOut;
 
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
       {/* Cinematic scroll wrapper: 100vw to break out of 1280px container */}
       <div style={{ 
-        height: '600vh', 
+        height: '380vh', 
         position: 'relative',
         width: '100vw',
         marginLeft: 'calc(50% - 50vw)',
@@ -65,7 +65,7 @@ export function HomePage() {
         </div>
       </div>
       
-      {/* Rest of page overlaps by 100vh, so at scrollY = 400vh, its top is at the bottom of the viewport, scrolling up perfectly during the fade-out */}
+      {/* Rest of page overlaps by 100vh, so at scrollY = 240vh, its top is at the bottom of the viewport, scrolling up perfectly during the fade-out */}
       <div style={{ marginTop: '-100vh', position: 'relative', zIndex: 2 }}>
         <AboutSection />
       </div>
