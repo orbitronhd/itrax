@@ -29,11 +29,11 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
 
   const isUpcoming = nextEvent ? isFutureEvent(nextEvent) : false;
 
-  // Fade IN from 1.5vh to 2.5vh (crossfading from HeroBanner)
-  const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 1.5 * vh) / (1 * vh)));
+  // Fade IN from 0.4vh to 1.2vh (crossfading from HeroBanner)
+  const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
 
-  // Fade OUT from 3.5vh to 4.2vh
-  const fadeOutProgress = Math.max(0, Math.min(1, (scrollY - 3.5 * vh) / (0.7 * vh)));
+  // Fade OUT from 1.6vh to 2.2vh
+  const fadeOutProgress = Math.max(0, Math.min(1, (scrollY - 1.6 * vh) / (0.6 * vh)));
 
   const opacity = fadeInProgress - fadeOutProgress;
   const translateY = (1 - fadeInProgress) * 40 - (fadeOutProgress * 40);
