@@ -140,7 +140,7 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
         >
           <button 
             onClick={() => {
-              document.getElementById('events-section')?.scrollIntoView({ behavior: 'smooth' });
+              window.scrollTo({ top: window.innerHeight * 2.5, behavior: 'smooth' });
             }}
             className="hero-btn hero-btn--primary"
           >
