@@ -55,12 +55,21 @@ export function ParticleCanvas() {
       particlesRef.current.push(new Particle(width, height));
     }
 
+    // Optimization: Do not track mouse on touch devices
+    const isTouchDevice = typeof window !== 'undefined' && (
+      window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0
+    );
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    if (!isTouchDevice) {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
 
     const animateCanvas = () => {
       ctx.clearRect(0, 0, width, height);
