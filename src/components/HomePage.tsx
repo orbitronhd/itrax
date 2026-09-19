@@ -8,12 +8,12 @@ export function HomePage() {
   const { normalizedScrollY, vh, isDesktop } = useNormalizedScroll();
 
   // The wrapper height is larger on desktop to compensate for dampening
-  // 380vh / 0.7 = ~542vh (we use 540vh as proposed)
-  const wrapperHeight = isDesktop ? '540vh' : '380vh';
+  // 420vh / 0.7 = 600vh
+  const wrapperHeight = isDesktop ? '600vh' : '420vh';
 
-  // Fade out sticky container from 2.2vh to 2.8vh to reveal Rest of Page
+  // Fade out sticky container from 2.6vh to 3.2vh to reveal Rest of Page
   // We use normalizedScrollY for the timing logic
-  const stickyFadeOut = Math.max(0, Math.min(1, (normalizedScrollY - 2.2 * vh) / (0.6 * vh)));
+  const stickyFadeOut = Math.max(0, Math.min(1, (normalizedScrollY - 2.6 * vh) / (0.6 * vh)));
   const stickyOpacity = 1 - stickyFadeOut;
 
   return (

@@ -66,13 +66,13 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   const text2Blur = (1 - text2Progress) * 12;
   const text2TranslateY = (1 - text2Progress) * -20;
 
-  // Background slow blur (0 - 1.2vh)
-  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.2 * vh)));
+  // Background slow blur (0 - 1.6vh)
+  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.6 * vh)));
   const bgBlur = bgProgress * 12;
   const bgBrightness = 1 - (bgProgress * 0.4); 
 
-  // Entire Hero fade out for crossfade into UpcomingEvent (0.4vh - 1.2vh)
-  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
+  // Entire Hero fade out for crossfade into UpcomingEvent (0.8vh - 1.6vh)
+  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 0.8 * vh) / (0.8 * vh)));
   const heroOpacity = 1 - heroFadeProgress;
 
   return (
