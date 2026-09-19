@@ -139,7 +139,10 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
         >
           <button 
             onClick={() => {
-              window.scrollTo({ top: window.innerHeight * 1.2, behavior: 'smooth' });
+              const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+              const targetNormalizedScroll = window.innerHeight * 1.6;
+              const actualTarget = isDesktop ? targetNormalizedScroll / 0.7 : targetNormalizedScroll;
+              window.scrollTo({ top: actualTarget, behavior: 'smooth' });
             }}
             className="hero-btn hero-btn--primary"
           >
