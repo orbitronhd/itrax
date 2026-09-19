@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { ArrowUpRight } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
+import { computeEventStatus, isActiveEvent } from '../utils/eventStatus';
 import './css/EventsPage.css';
 
 interface ProcessedEvent {
@@ -10,22 +11,7 @@ interface ProcessedEvent {
   timestamp: number;
 }
 
-/**
- * Helper to determine whether an event is in the future.
- */
-function isFutureEvent(event: EventItem): boolean {
-  if (event.status === 'upcoming' || event.status === 'ongoing') return true;
-  if (event.status === 'completed') return false;
 
-  const parsed = new Date(event.date);
-  if (!isNaN(parsed.getTime())) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return parsed >= today;
-  }
-
-  return false;
-}
 
 // Custom hook for the split-flap character cycling effect
 function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
@@ -87,24 +73,23 @@ function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: bo
 
 
 function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isReady: boolean; delay: number; onClick: () => void }) {
-  const isUpcoming = isFutureEvent(event);
+  const computedStatus = computeEventStatus(event);
+  const isTBD = event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH');
 
   // Determine Status/Remarks
   let statusClass = '';
   let statusText = '';
 
-  const isTBD = event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH');
-
-  if (event.status === 'ongoing') {
+  if (computedStatus === 'ongoing') {
     statusClass = 'status-live';
     statusText = 'LIVE';
   } else if (isTBD) {
     statusClass = 'status-tbd';
     statusText = 'TBD';
-  } else if (isUpcoming && event.registrationUrl) {
+  } else if (computedStatus === 'upcoming' && event.registrationUrl) {
     statusClass = 'status-register';
     statusText = 'REGISTER';
-  } else if (isUpcoming) {
+  } else if (computedStatus === 'upcoming') {
     statusClass = 'status-upcoming';
     statusText = 'UPCOMING';
   } else {
@@ -159,7 +144,18 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
     };
   }, [onClose]);
 
-  const isUpcoming = isFutureEvent(event);
+  const computedStatus = computeEventStatus(event);
+  const isUpcomingOrOngoing = computedStatus === 'upcoming' || computedStatus === 'ongoing';
+
+  let displayDate = event.date;
+  if (event.endDate && event.endDate !== event.date) {
+    displayDate += ` – ${event.endDate}`;
+  }
+  let displayTime = '';
+  if (event.startTime) {
+    displayTime = event.startTime;
+    if (event.endTime) displayTime += ` – ${event.endTime}`;
+  }
 
   return (
     <div className="event-overlay-backdrop" onClick={onClose}>
@@ -177,20 +173,28 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
         <div className="event-overlay-details">
           <div className="event-overlay-header">
             <span className="event-overlay-type">{event.type}</span>
-            <span className={`event-overlay-status ${isUpcoming ? 'status-upcoming' : 'status-completed'}`}>
-              {event.status?.toUpperCase() || (isUpcoming ? 'UPCOMING' : 'COMPLETED')}
+            <span className={`event-overlay-status status-${computedStatus}`}>
+              {computedStatus.toUpperCase()}
             </span>
           </div>
           <h2 className="event-overlay-title">{event.name}</h2>
-          <p className="event-overlay-date">{event.date}</p>
+          <p className="event-overlay-date">
+            {displayDate}
+            {displayTime && <span className="event-overlay-time"> | {displayTime}</span>}
+          </p>
           <div className="event-overlay-desc">
             {event.description ? event.description : 'Join us for an exciting event filled with learning and fun!'}
           </div>
 
           <div className="event-overlay-actions">
-            {isUpcoming && event.registrationUrl && (
+            {isUpcomingOrOngoing && event.registrationUrl && (
               <a href={event.registrationUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-register-btn">
                 Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
+              </a>
+            )}
+            {event.galleryUrl && (
+              <a href={event.galleryUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-gallery-btn">
+                View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
               </a>
             )}
           </div>

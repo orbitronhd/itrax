@@ -128,6 +128,12 @@
   border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
+.featured-event-status.status-ongoing {
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  animation: pulse 1.5s infinite;
+}
+
 .featured-event-status.status-completed {
   color: #64748b;
   border: 1px solid rgba(100, 116, 139, 0.2);

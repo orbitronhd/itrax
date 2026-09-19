@@ -2,21 +2,10 @@ import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
+import { computeEventStatus, isActiveEvent } from '../utils/eventStatus';
 import './css/UpcomingEvent.css';
 
-function isFutureEvent(event: EventItem): boolean {
-  if (event.status === 'upcoming' || event.status === 'ongoing') return true;
-  if (event.status === 'completed') return false;
 
-  const parsed = new Date(event.date);
-  if (!isNaN(parsed.getTime())) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return parsed >= today;
-  }
-
-  return false;
-}
 
 interface UpcomingEventProps {
   scrollY: number;
@@ -25,9 +14,20 @@ interface UpcomingEventProps {
 
 export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
   const { events, loading } = useEvents();
-  const nextEvent = events.find(isFutureEvent) || events[0];
+  const nextEvent = events.find(isActiveEvent) || events[0];
 
-  const isUpcoming = nextEvent ? isFutureEvent(nextEvent) : false;
+  const isUpcomingOrOngoing = nextEvent ? isActiveEvent(nextEvent) : false;
+  const computedStatus = nextEvent ? computeEventStatus(nextEvent) : 'upcoming';
+
+  let displayDate = nextEvent?.date;
+  if (nextEvent?.endDate && nextEvent.endDate !== nextEvent.date) {
+    displayDate += ` – ${nextEvent.endDate}`;
+  }
+  let displayTime = '';
+  if (nextEvent?.startTime) {
+    displayTime = nextEvent.startTime;
+    if (nextEvent.endTime) displayTime += ` – ${nextEvent.endTime}`;
+  }
 
   // Fade IN from 0.4vh to 1.2vh (crossfading from HeroBanner)
   const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
@@ -73,8 +73,8 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
             <div className="featured-event-header">
               <span className="featured-event-type">{loading ? '...' : nextEvent?.type || 'EVENT'}</span>
               {!loading && nextEvent && (
-                <span className={`featured-event-status ${isUpcoming ? 'status-upcoming' : 'status-completed'}`}>
-                  {nextEvent.status?.toUpperCase() || (isUpcoming ? 'UPCOMING' : 'COMPLETED')}
+                <span className={`featured-event-status status-${computedStatus}`}>
+                  {computedStatus.toUpperCase()}
                 </span>
               )}
             </div>
@@ -84,7 +84,12 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
             </h2>
 
             <p className="featured-event-date">
-              {!loading && nextEvent?.date}
+              {!loading && nextEvent && (
+                <>
+                  {displayDate}
+                  {displayTime && <span className="featured-event-time"> | {displayTime}</span>}
+                </>
+              )}
             </p>
 
             <div className="featured-event-desc">
@@ -98,7 +103,7 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
             </div>
 
             <div className="featured-event-actions">
-              {isUpcoming && nextEvent?.registrationUrl && !loading && (
+              {isUpcomingOrOngoing && nextEvent?.registrationUrl && !loading && (
                 <a
                   href={nextEvent.registrationUrl}
                   target="_blank"
@@ -109,8 +114,19 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
                 </a>
               )}
 
+              {nextEvent?.galleryUrl && !loading && (
+                <a
+                  href={nextEvent.galleryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="featured-register-btn"
+                  style={{ background: 'rgba(255, 255, 255, 0.1)', color: '#fff' }}
+                >
+                  View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
+                </a>
+              )}
 
-              {!loading && (!nextEvent?.registrationUrl || !isUpcoming) && (
+              {!loading && (!nextEvent?.registrationUrl || !isUpcomingOrOngoing) && !nextEvent?.galleryUrl && (
                 <Link to="/events" className="featured-gallery-btn">
                   View All Events
                 </Link>

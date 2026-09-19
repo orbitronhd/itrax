@@ -51,11 +51,19 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         const name = String(cells[1]?.v || '');
         const dateCell = cells[2];
         const date = String(dateCell?.f || dateCell?.v || '');
-        const type = String(cells[3]?.v || '');
-        const imageUrl = String(cells[4]?.v || '').trim();
-        const registrationUrl = String(cells[5]?.v || '').trim();
-        const statusRaw = String(cells[6]?.v || '').trim().toLowerCase();
-        const description = String(cells[7]?.v || '').trim();
+        const type = String(cells[6]?.v || '');
+        const imageUrl = String(cells[7]?.v || '').trim();
+        const registrationUrl = String(cells[8]?.v || '').trim();
+        const galleryUrl = String(cells[9]?.v || '').trim();
+        const statusRaw = String(cells[10]?.v || '').trim().toLowerCase();
+        const description = String(cells[11]?.v || '').trim();
+
+        const endDateCell = cells[3];
+        const endDate = String(endDateCell?.f || endDateCell?.v || '').trim();
+        const startTimeCell = cells[4];
+        const startTime = String(startTimeCell?.f || startTimeCell?.v || '').trim();
+        const endTimeCell = cells[5];
+        const endTime = String(endTimeCell?.f || endTimeCell?.v || '').trim();
         
         let status: EventItem['status'];
         if (statusRaw === 'upcoming' || statusRaw === 'ongoing' || statusRaw === 'completed') {
@@ -69,8 +77,12 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
           type,
         };
 
+        if (endDate) event.endDate = endDate;
+        if (startTime) event.startTime = startTime;
+        if (endTime) event.endTime = endTime;
         if (imageUrl) event.imageUrl = imageUrl;
         if (registrationUrl) event.registrationUrl = registrationUrl;
+        if (galleryUrl) event.galleryUrl = galleryUrl;
         if (status) event.status = status;
         if (description) event.description = description;
 

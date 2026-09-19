@@ -3,8 +3,10 @@ import type { EventItem } from '../types/events';
 import { fetchCmsEvents } from '../services/cms/eventsCms';
 import { eventsData } from '../data/eventsData';
 
+import { overrideEventStatuses } from '../utils/eventStatus';
+
 export function useEvents() {
-  const [events, setEvents] = useState<EventItem[]>(eventsData);
+  const [events, setEvents] = useState<EventItem[]>(overrideEventStatuses(eventsData));
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiveSheet, setIsLiveSheet] = useState<boolean>(false);
@@ -28,16 +30,16 @@ export function useEvents() {
             return cmsEvent;
           });
 
-          setEvents(mergedEvents);
+          setEvents(overrideEventStatuses(mergedEvents));
           setIsLiveSheet(true);
         } else {
-          setEvents(eventsData);
+          setEvents(overrideEventStatuses(eventsData));
           setIsLiveSheet(false);
         }
       } catch (err) {
         console.error('Error fetching events from Google Sheet:', err);
         setError('Failed to load live events. Showing local data.');
-        setEvents(eventsData);
+        setEvents(overrideEventStatuses(eventsData));
         setIsLiveSheet(false);
       } finally {
         setLoading(false);

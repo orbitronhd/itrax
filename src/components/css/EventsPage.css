@@ -324,6 +324,12 @@
   border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
+.event-overlay-status.status-ongoing {
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  animation: pulse-live 1.5s infinite;
+}
+
 .event-overlay-status.status-completed {
   color: #64748b;
   border: 1px solid rgba(100, 116, 139, 0.2);
