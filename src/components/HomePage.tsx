@@ -2,7 +2,7 @@ import { HeroBanner } from './HeroBanner';
 import { UpcomingEvent } from './UpcomingEvent';
 import { AboutSection } from './AboutSection';
 import { useNormalizedScroll } from '../hooks/useNormalizedScroll';
-import eventsHeaderImg from '../assets/header/events.webp';
+import eventsHeaderImg from '../assets/polaroid/events.webp';
 
 export function HomePage() {
   const { normalizedScrollY, vh, isDesktop } = useNormalizedScroll();

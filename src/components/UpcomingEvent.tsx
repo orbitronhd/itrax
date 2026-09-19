@@ -114,19 +114,7 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
                 </a>
               )}
 
-              {nextEvent?.galleryUrl && !loading && (
-                <a
-                  href={nextEvent.galleryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="featured-register-btn"
-                  style={{ background: 'rgba(255, 255, 255, 0.1)', color: '#fff' }}
-                >
-                  View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
-                </a>
-              )}
-
-              {!loading && (!nextEvent?.registrationUrl || !isUpcomingOrOngoing) && !nextEvent?.galleryUrl && (
+              {!loading && (!nextEvent?.registrationUrl || !isUpcomingOrOngoing) && (
                 <Link to="/events" className="featured-gallery-btn">
                   View All Events
                 </Link>

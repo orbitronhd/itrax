@@ -8,7 +8,6 @@ export interface EventItem {
   type: string;
   imageUrl?: string;
   registrationUrl?: string;
-  galleryUrl?: string;
   description?: string;
   status?: 'upcoming' | 'ongoing' | 'completed';
 }

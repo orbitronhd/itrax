@@ -151,11 +151,6 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
                 Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
               </a>
             )}
-            {event.galleryUrl && (
-              <a href={event.galleryUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-gallery-btn">
-                View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
-              </a>
-            )}
           </div>
         </div>
       </div>
