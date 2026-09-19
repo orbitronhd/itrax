@@ -1,6 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { EventItem } from '../types/events';
+
 import { useEvents } from '../hooks/useEvents';
 import { computeEventStatus, isActiveEvent } from '../utils/eventStatus';
 import './css/UpcomingEvent.css';

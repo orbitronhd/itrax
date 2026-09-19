@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { ArrowUpRight } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
-import { computeEventStatus, isActiveEvent } from '../utils/eventStatus';
+import { computeEventStatus } from '../utils/eventStatus';
 import './css/EventsPage.css';
 
 interface ProcessedEvent {
