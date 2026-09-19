@@ -16,7 +16,6 @@ function GlitchWord({ text, delay = 0 }: { text: string; delay?: number }) {
     let interval: ReturnType<typeof setInterval>;
 
     timeout = setTimeout(() => {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
       let iteration = 0;
       
       interval = setInterval(() => {
@@ -28,7 +27,7 @@ function GlitchWord({ text, delay = 0 }: { text: string; delay?: number }) {
                 return text[index];
               }
               if (letter === ' ' || letter === '.') return letter;
-              return chars[Math.floor(Math.random() * chars.length)];
+              return '\u00A0';
             })
             .join('');
         });
