@@ -51,7 +51,8 @@
 
 .board-columns {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(400px, 6fr) minmax(140px, 1.5fr) minmax(140px, 1fr);
+  grid-template-columns: 160px 1fr 200px 140px;
+  gap: 0.5rem;
   padding: 1.5rem 2rem 0.5rem;
   border-bottom: 2px solid #222;
   color: #f5c542;
@@ -77,12 +78,36 @@
 
 .board-row {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(400px, 6fr) minmax(140px, 1.5fr) minmax(140px, 1fr);
+  grid-template-columns: 160px 1fr 200px 140px;
+  gap: 0.5rem;
   padding: 0.55rem 2rem;
   border-bottom: 1px solid #222;
   transition: background-color 0.2s;
   align-items: center;
   cursor: pointer;
+  transform-origin: top center;
+  opacity: 0;
+  transform: rotateX(-90deg);
+}
+
+.board-row.flipped-in {
+  animation: row-flip-in 0.4s ease-out forwards;
+  animation-delay: var(--flip-delay, 0ms);
+}
+
+@keyframes row-flip-in {
+  0% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  60% {
+    opacity: 1;
+    transform: rotateX(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
 }
 
 .board-row:hover {
@@ -170,21 +195,7 @@
   50% { opacity: 0.5; }
 }
 
-/* Split-flap Animation */
-.split-flap-char {
-  display: inline-block;
-  min-width: 0.65em;
-  text-align: center;
-}
 
-.split-flap-char.flipping {
-  animation: flip-char 0.05s linear infinite alternate;
-}
-
-@keyframes flip-char {
-  0% { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(0); opacity: 0.5; }
-}
 
 
 /* Skeleton Loading */
