@@ -54,6 +54,7 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         const type = String(cells[6]?.v || '');
         const imageUrl = String(cells[7]?.v || '').trim();
         const registrationUrl = String(cells[8]?.v || '').trim();
+        const galleryUrl = String(cells[9]?.v || '').trim();
         const statusRaw = String(cells[10]?.v || '').trim().toLowerCase();
         const description = String(cells[11]?.v || '').trim();
 
@@ -81,6 +82,7 @@ export async function fetchCmsEvents(): Promise<EventItem[]> {
         if (endTime) event.endTime = endTime;
         if (imageUrl) event.imageUrl = imageUrl;
         if (registrationUrl) event.registrationUrl = registrationUrl;
+        if (galleryUrl) event.galleryUrl = galleryUrl;
         if (status) event.status = status;
         if (description) event.description = description;
 

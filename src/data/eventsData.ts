@@ -17,6 +17,7 @@ import type { EventItem } from '../types/events';
  *    - `description` (optional string): Description of the event
  *    - `registrationUrl` (optional string): Link to Google Form/registration portal (active for upcoming events)
  *    - `imageUrl` (optional string): Poster/banner image URL or path
+ *    - `galleryUrl` (optional string): External link to the event's gallery
  *    - `status` (optional 'upcoming' | 'ongoing' | 'completed'): Event status override
  */
 
