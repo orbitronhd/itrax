@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Plane } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import { computeEventStatus } from '../utils/eventStatus';
@@ -72,6 +72,16 @@ function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: bo
 }
 
 
+function formatBoardDate(dateStr: string): string {
+  if (/TBD|TBA|TBH/i.test(dateStr)) return dateStr;
+  const parsed = new Date(dateStr);
+  if (isNaN(parsed.getTime())) return dateStr;
+  const day = String(parsed.getDate()).padStart(2, '0');
+  const month = parsed.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const year = String(parsed.getFullYear()).slice(-2);
+  return `${day}${month}${year}`;
+}
+
 function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isReady: boolean; delay: number; onClick: () => void }) {
   const computedStatus = computeEventStatus(event);
   const isTBD = event.date.includes('TBD') || event.date.includes('TBA') || event.date.includes('TBH');
@@ -82,7 +92,7 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
 
   if (computedStatus === 'ongoing') {
     statusClass = 'status-live';
-    statusText = 'LIVE';
+    statusText = 'ON ROUTE';
   } else if (isTBD) {
     statusClass = 'status-tbd';
     statusText = 'TBD';
@@ -91,16 +101,16 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
     statusText = 'REGISTER';
   } else if (computedStatus === 'upcoming') {
     statusClass = 'status-upcoming';
-    statusText = 'UPCOMING';
+    statusText = 'DEPARTING';
   } else {
     statusClass = 'status-completed';
-    statusText = 'COMPLETED';
+    statusText = 'ARRIVED';
   }
 
   return (
     <div className="board-row" onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}>
       <div className="board-cell">
-        <SplitFlapText text={event.date} isReady={isReady} delay={delay} />
+        <SplitFlapText text={formatBoardDate(event.date)} isReady={isReady} delay={delay} />
       </div>
       <div className="board-cell cell-event">
         <SplitFlapText text={event.name} isReady={isReady} delay={delay} />
@@ -254,7 +264,12 @@ export function EventsPage() {
       <section className="departure-board-section" aria-label="Events Departure Board">
         <div className="departure-board">
           <h1 className="events-board-heading">
-            <SplitFlapText text="EVENTS" isReady={isReady} />
+            <span className="events-heading-icon">
+              <Plane fill="currentColor" strokeWidth={1} className="plane-icon" />
+            </span>
+            <span className="events-heading-text">
+              <SplitFlapText text="EVENTS" isReady={isReady} />
+            </span>
           </h1>
           <div className="board-columns">
             <div className="board-col-header">DATE</div>
