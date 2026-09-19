@@ -16,7 +16,6 @@ function GlitchWord({ text, delay = 0 }: { text: string; delay?: number }) {
     let interval: ReturnType<typeof setInterval>;
 
     timeout = setTimeout(() => {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
       let iteration = 0;
       
       interval = setInterval(() => {
@@ -28,7 +27,7 @@ function GlitchWord({ text, delay = 0 }: { text: string; delay?: number }) {
                 return text[index];
               }
               if (letter === ' ' || letter === '.') return letter;
-              return chars[Math.floor(Math.random() * chars.length)];
+              return '\u00A0';
             })
             .join('');
         });
@@ -67,13 +66,13 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
   const text2Blur = (1 - text2Progress) * 12;
   const text2TranslateY = (1 - text2Progress) * -20;
 
-  // Background slow blur (0 - 1.2vh)
-  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.2 * vh)));
+  // Background slow blur (0 - 1.6vh)
+  const bgProgress = Math.max(0, Math.min(1, scrollY / (1.6 * vh)));
   const bgBlur = bgProgress * 12;
   const bgBrightness = 1 - (bgProgress * 0.4); 
 
-  // Entire Hero fade out for crossfade into UpcomingEvent (0.4vh - 1.2vh)
-  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
+  // Entire Hero fade out for crossfade into UpcomingEvent (0.8vh - 1.6vh)
+  const heroFadeProgress = Math.max(0, Math.min(1, (scrollY - 0.8 * vh) / (0.8 * vh)));
   const heroOpacity = 1 - heroFadeProgress;
 
   return (
@@ -140,7 +139,10 @@ export function HeroBanner({ imageUrl, scrollY, vh }: HeroBannerProps) {
         >
           <button 
             onClick={() => {
-              window.scrollTo({ top: window.innerHeight * 1.2, behavior: 'smooth' });
+              const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+              const targetNormalizedScroll = window.innerHeight * 1.6;
+              const actualTarget = isDesktop ? targetNormalizedScroll / 0.7 : targetNormalizedScroll;
+              window.scrollTo({ top: actualTarget, behavior: 'smooth' });
             }}
             className="hero-btn hero-btn--primary"
           >

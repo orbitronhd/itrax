@@ -29,11 +29,11 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
     if (nextEvent.endTime) displayTime += ` – ${nextEvent.endTime}`;
   }
 
-  // Fade IN from 0.4vh to 1.2vh (crossfading from HeroBanner)
-  const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 0.4 * vh) / (0.8 * vh)));
+  // Fade IN from 0.8vh to 1.6vh (crossfading from HeroBanner)
+  const fadeInProgress = Math.max(0, Math.min(1, (scrollY - 0.8 * vh) / (0.8 * vh)));
 
-  // Fade OUT from 1.6vh to 2.2vh
-  const fadeOutProgress = Math.max(0, Math.min(1, (scrollY - 1.6 * vh) / (0.6 * vh)));
+  // Fade OUT from 2.0vh to 2.6vh
+  const fadeOutProgress = Math.max(0, Math.min(1, (scrollY - 2.0 * vh) / (0.6 * vh)));
 
   const opacity = fadeInProgress - fadeOutProgress;
   const translateY = (1 - fadeInProgress) * 40 - (fadeOutProgress * 40);
@@ -114,19 +114,7 @@ export function UpcomingEvent({ scrollY, vh }: UpcomingEventProps) {
                 </a>
               )}
 
-              {nextEvent?.galleryUrl && !loading && (
-                <a
-                  href={nextEvent.galleryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="featured-register-btn"
-                  style={{ background: 'rgba(255, 255, 255, 0.1)', color: '#fff' }}
-                >
-                  View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
-                </a>
-              )}
-
-              {!loading && (!nextEvent?.registrationUrl || !isUpcomingOrOngoing) && !nextEvent?.galleryUrl && (
+              {!loading && (!nextEvent?.registrationUrl || !isUpcomingOrOngoing) && (
                 <Link to="/events" className="featured-gallery-btn">
                   View All Events
                 </Link>

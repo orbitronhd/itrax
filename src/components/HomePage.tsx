@@ -1,44 +1,26 @@
-import { useState, useEffect } from 'react';
 import { HeroBanner } from './HeroBanner';
 import { UpcomingEvent } from './UpcomingEvent';
 import { AboutSection } from './AboutSection';
-import eventsHeaderImg from '../assets/header/events.webp';
+import { useNormalizedScroll } from '../hooks/useNormalizedScroll';
+import eventsHeaderImg from '../assets/polaroid/events.webp';
 
 export function HomePage() {
-  const [scrollY, setScrollY] = useState(0);
-  const [vh, setVh] = useState(1000);
+  const { normalizedScrollY, vh, isDesktop } = useNormalizedScroll();
 
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    const handleResize = () => setVh(window.innerHeight);
-    handleScroll();
-    handleResize();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  // The wrapper height is larger on desktop to compensate for dampening
+  // 420vh / 0.7 = 600vh
+  const wrapperHeight = isDesktop ? '600vh' : '420vh';
 
-  // Fade out sticky container from 2.2vh to 2.8vh to reveal Rest of Page
-  const stickyFadeOut = Math.max(0, Math.min(1, (scrollY - 2.2 * vh) / (0.6 * vh)));
+  // Fade out sticky container from 2.6vh to 3.2vh to reveal Rest of Page
+  // We use normalizedScrollY for the timing logic
+  const stickyFadeOut = Math.max(0, Math.min(1, (normalizedScrollY - 2.6 * vh) / (0.6 * vh)));
   const stickyOpacity = 1 - stickyFadeOut;
 
   return (
     <main style={{ flex: 1, position: 'relative', zIndex: 1 }}>
       {/* Cinematic scroll wrapper: 100vw to break out of 1280px container */}
       <div style={{ 
-        height: '380vh', 
+        height: wrapperHeight, 
         position: 'relative',
         width: '100vw',
         marginLeft: 'calc(50% - 50vw)',
@@ -59,8 +41,8 @@ export function HomePage() {
             opacity: stickyOpacity,
             pointerEvents: stickyOpacity > 0.5 ? 'auto' : 'none'
           }}>
-            <HeroBanner imageUrl={eventsHeaderImg} scrollY={scrollY} vh={vh} />
-            <UpcomingEvent scrollY={scrollY} vh={vh} />
+            <HeroBanner imageUrl={eventsHeaderImg} scrollY={normalizedScrollY} vh={vh} />
+            <UpcomingEvent scrollY={normalizedScrollY} vh={vh} />
           </div>
         </div>
       </div>

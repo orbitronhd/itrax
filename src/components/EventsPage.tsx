@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Plane } from 'lucide-react';
 import type { EventItem } from '../types/events';
 import { useEvents } from '../hooks/useEvents';
 import { computeEventStatus } from '../utils/eventStatus';
@@ -12,65 +12,15 @@ interface ProcessedEvent {
 }
 
 
-
-// Custom hook for the split-flap character cycling effect
-function useSplitFlap(text: string, isReady: boolean, delay: number = 0) {
-  const [displayText, setDisplayText] = useState('');
-  const [isFlipping, setIsFlipping] = useState(false);
-
-  useEffect(() => {
-    if (!isReady || !text) return;
-
-    let interval: ReturnType<typeof setInterval>;
-
-    const timeout = setTimeout(() => {
-      setIsFlipping(true);
-      let iteration = 0;
-      const maxIterations = 15;
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ';
-
-      interval = setInterval(() => {
-        if (iteration >= maxIterations) {
-          clearInterval(interval);
-          setDisplayText(text);
-          setIsFlipping(false);
-          return;
-        }
-
-        const randomText = text.split('').map((char) => {
-          if (char === ' ' && Math.random() > 0.5) return ' ';
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('');
-
-        setDisplayText(randomText);
-        iteration++;
-      }, 40); // 40ms between flips
-    }, delay);
-
-    return () => {
-      clearTimeout(timeout);
-      if (interval) clearInterval(interval);
-    };
-  }, [text, isReady, delay]);
-
-  return { displayText: displayText || text, isFlipping };
+function formatBoardDate(dateStr: string): string {
+  if (/TBD|TBA|TBH/i.test(dateStr)) return dateStr;
+  const parsed = new Date(dateStr);
+  if (isNaN(parsed.getTime())) return dateStr;
+  const day = String(parsed.getDate()).padStart(2, '0');
+  const month = parsed.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const year = String(parsed.getFullYear()).slice(-2);
+  return `${day}${month}${year}`;
 }
-
-// A component that renders a string with split-flap animation on mount
-function SplitFlapText({ text, isReady, delay = 0 }: { text: string; isReady: boolean; delay?: number }) {
-  const { displayText, isFlipping } = useSplitFlap(text, isReady, delay);
-
-  return (
-    <>
-      {displayText.split('').map((char, i) => (
-        <span key={i} className={`split-flap-char ${isFlipping ? 'flipping' : ''}`}>
-          {char === ' ' ? '\u00A0' : char}
-        </span>
-      ))}
-    </>
-  );
-}
-
 
 function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isReady: boolean; delay: number; onClick: () => void }) {
   const computedStatus = computeEventStatus(event);
@@ -82,7 +32,7 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
 
   if (computedStatus === 'ongoing') {
     statusClass = 'status-live';
-    statusText = 'LIVE';
+    statusText = 'ON ROUTE';
   } else if (isTBD) {
     statusClass = 'status-tbd';
     statusText = 'TBD';
@@ -91,22 +41,31 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
     statusText = 'REGISTER';
   } else if (computedStatus === 'upcoming') {
     statusClass = 'status-upcoming';
-    statusText = 'UPCOMING';
+    statusText = 'DEPARTING';
   } else {
     statusClass = 'status-completed';
-    statusText = 'COMPLETED';
+    statusText = 'ARRIVED';
   }
 
+  const rowStyle = { '--flip-delay': `${delay}ms` } as React.CSSProperties;
+
   return (
-    <div className="board-row" onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}>
+    <div 
+      className={`board-row ${isReady ? 'flipped-in' : ''}`} 
+      onClick={onClick} 
+      role="button" 
+      tabIndex={0} 
+      onKeyDown={(e) => { if (e.key === 'Enter') onClick(); }}
+      style={rowStyle}
+    >
       <div className="board-cell">
-        <SplitFlapText text={event.date} isReady={isReady} delay={delay} />
+        {formatBoardDate(event.date)}
       </div>
       <div className="board-cell cell-event">
-        <SplitFlapText text={event.name} isReady={isReady} delay={delay} />
+        {event.name}
       </div>
       <div className="board-cell">
-        <SplitFlapText text={event.type} isReady={isReady} delay={delay} />
+        {event.type}
       </div>
       <div className="board-cell cell-status">
         {statusClass === 'status-register' && event.registrationUrl ? (
@@ -118,12 +77,12 @@ function BoardRow({ event, isReady, delay, onClick }: { event: EventItem; isRead
             aria-label={`Register for ${event.name}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <SplitFlapText text="REGISTER" isReady={isReady} delay={delay} />
+            REGISTER
             <ArrowUpRight size={16} strokeWidth={2.5} style={{ marginLeft: '4px' }} />
           </a>
         ) : (
           <span className={statusClass}>
-            <SplitFlapText text={statusText} isReady={isReady} delay={delay} />
+            {statusText}
           </span>
         )}
       </div>
@@ -192,11 +151,6 @@ function EventDetailOverlay({ event, onClose }: { event: EventItem; onClose: () 
                 Register Now <ArrowUpRight size={18} strokeWidth={2.5} />
               </a>
             )}
-            {event.galleryUrl && (
-              <a href={event.galleryUrl} target="_blank" rel="noopener noreferrer" className="event-overlay-gallery-btn">
-                View Gallery <ArrowUpRight size={18} strokeWidth={2.5} />
-              </a>
-            )}
           </div>
         </div>
       </div>
@@ -254,7 +208,12 @@ export function EventsPage() {
       <section className="departure-board-section" aria-label="Events Departure Board">
         <div className="departure-board">
           <h1 className="events-board-heading">
-            <SplitFlapText text="EVENTS" isReady={isReady} />
+            <span className="events-heading-icon">
+              <Plane fill="currentColor" strokeWidth={1} className="plane-icon" />
+            </span>
+            <span className="events-heading-text">
+              EVENTS
+            </span>
           </h1>
           <div className="board-columns">
             <div className="board-col-header">DATE</div>
