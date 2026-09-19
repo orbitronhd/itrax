@@ -45,9 +45,6 @@ function PageTitleManager() {
       case '/events':
         document.title = 'Events - iTrax';
         break;
-
-        document.title = 'Gallery - iTrax';
-        break;
       default:
         document.title = 'iTrax';
     }
